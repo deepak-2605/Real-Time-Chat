@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 
-function Signup(props) {
-   const [myState, setMyState] = useState(props.loginValue);
-   const updateState = () => {
-    console.log(`requested`);
-    setMyState('Signup');
-  };
+function Signup({toggleComponent}) {
+
   return (
     <div className="font-bold text-4xl">
       <div className="flex min-h-full flex-col justify-center align-middle px-6 py-12 lg:px-8">
@@ -129,6 +125,7 @@ function Signup(props) {
                 >
                   Sign Up
                 </button>
+                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={toggleComponent}>Go to Login</button>
               </div>
             </form>
           </div>
