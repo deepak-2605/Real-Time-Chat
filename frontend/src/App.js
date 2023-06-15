@@ -1,7 +1,11 @@
+import HomePage from "./components/HomePage";
 import Login from "./components/Login";
+import './App.css';
 function App() {
   return (
-  <Login></Login>
+    <div className="App">
+      <HomePage />
+    </div>
   );
 }
 
