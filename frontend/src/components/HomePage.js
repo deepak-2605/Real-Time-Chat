@@ -4,9 +4,17 @@ import Signup from "./Signup";
 
 function HomePage() {
   var login='Login'
+  const [activeComponent,setActiveComponent]=useState('login');
+  const toggleComponent=()=>{
+    setActiveComponent(activeComponent==='login'?'signup':'login');
+  }
   return (
-    <div>
-        { (login=== 'Login') ? <Signup loginValue={login} /> : <Signup loginValue={login}/>}
+      <div>
+      {activeComponent === 'login' ? (
+        <Login toggleComponent={toggleComponent} />
+      ) : (
+        <Signup toggleComponent={toggleComponent} />
+      )}
     </div>
   )
 }
