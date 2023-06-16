@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-
 function Signup({toggleComponent}) {
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
   return (
     <div className="font-bold text-4xl">
       <div className="flex min-h-full flex-col justify-center align-middle px-6 py-12 lg:px-8">
-        <div className="bg-gray-300 bg-opacity-70 py-8 mt-8">
+        <div className="bg-gray-300 bg-opacity-70 py-6 mt-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-black">
+            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
               Sign Up
             </h2>
           </div>
@@ -16,28 +18,28 @@ function Signup({toggleComponent}) {
               <div>
                 <label
                   for="username"
-                  className="block text-sm font-large leading-6 text-black font-Poppins"
+                  className="block text-xl font-large leading-6 text-black font-Poppins"
                 >
                   Please enter your username
                 </label>
                 <div Name="mt-2">
                   <input
                     type="text"
-                    class="bg-transparent border-b-4 border-gray-300 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    className="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base" onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
               <div>
                 <label
                   for="username"
-                  className="block text-sm font-large leading-6 text-black font-Poppins"
+                  className="block text-xl font-large leading-6 text-black font-Poppins"
                 >
                   E-mail
                 </label>
                 <div Name="mt-2">
                   <input
                     type="text"
-                    class="bg-transparent border-b-4 border-gray-300 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    className="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base" onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -46,7 +48,7 @@ function Signup({toggleComponent}) {
                 <div className="flex items-center justify-between">
                   <label
                     for="password"
-                    className="block text-sm font-large leading-6 text-black font-Poppins"
+                    className="block text-xl font-large leading-6 text-black font-Poppins"
                   >
                     Enter Password
                   </label>
@@ -55,38 +57,43 @@ function Signup({toggleComponent}) {
                 <div className="mt-2">
                   <input
                     type="text"
-                    class="bg-transparent border-b-4 border-gray-300 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    class="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base" onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <label
                     for="password"
                     className="block text-sm font-large leading-6 text-black font-Poppins"
                   >
                     Confirm Password
                   </label>
-                </div>
+                </div> */}
 
-                <div className="mt-2">
+                {/* <div className="mt-2">
                   <input
                     type="text"
                     class="bg-transparent border-b-4  border-gray-300 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
                   />
-                </div>
+                </div> */}
+              </div>
+              <div>
+                <label
+                  for="password"
+                  className="block text-xl font-large leading-6 text-black font-Poppins"
+                >
+                  Upload profile pic
+                </label>
               </div>
               <div class="max-w-2xl rounded-lg shadow-xl bg-gray-50">
                 <div class="m-4">
-                  <label class="inline-block mb-2 text-gray-500">
-                    Upload Profile Pic
-                  </label>
                   <div class="flex items-center justify-center w-full">
-                    <label class="flex flex-col w-full h-16 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                    <label class="flex flex-col w-full h-10 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
                       <div class="flex flex-col items-center justify-center pt-7">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          class="w-8 h-8 text-gray-400 group-hover:text-gray-600"
+                          class="w-1 h-1 text-gray-400 group-hover:text-gray-600"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -106,26 +113,30 @@ function Signup({toggleComponent}) {
                     </label>
                   </div>
                 </div>
-                <div class="flex justify-center p-2">
-                  <button class="w-full px-2 py-2 text-white bg-blue-500 rounded shadow-xl">
+                <div class="flex justify-begin p-2">
+                  <button
+                    type="submit"
+                    className="flex w-half justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
                     Upload
                   </button>
                 </div>
               </div>
               <div>
-                {/* <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={updateState}
-                >
-                  Login
-                </button> */}
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign Up
                 </button>
-                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={toggleComponent}>Go to Login</button>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={toggleComponent}
+                >
+                  Log in
+                </button>
               </div>
             </form>
           </div>

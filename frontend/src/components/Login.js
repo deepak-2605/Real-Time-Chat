@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-function Login({toggleComponent}) {
+function Login({ toggleComponent }) {
   const [name, setName] = useState();
   const [password, setPassword] = useState();
-  
+
   return (
     <div NameName="font-bold text-4xl">
       <div className="flex min-h-full flex-col justify-center align-middle px-6 py-12 lg:px-8">
@@ -25,6 +25,7 @@ function Login({toggleComponent}) {
                   <input
                     type="text"
                     className="bg-transparent border-b-4 border-gray-400  focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
@@ -50,7 +51,7 @@ function Login({toggleComponent}) {
                   <input
                     type="password"
                     className="bg-transparent border-b-4 border-gray-400  focus:border-black outline-none block w-full appearance-none leading-normal text-base"
-                    onClick={(e) => setName(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
