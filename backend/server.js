@@ -1,24 +1,28 @@
 const express = require("express");
+var bodyParser = require('body-parser');
+var cors = require('cors')
 const dotenv = require("dotenv");
 const connecttoDB = require("./config/db");
-const userRoutes=require('./routes/userRoutes');
-const {notFound,errorHandler}=require('./middleware/errorMiddleware')
+const { notFound, errorHandler } = require('./middleware/errorMiddleware')
+var bodyParser = require('body-parser');   
+var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 const app = express();
+
 dotenv.config();
 connecttoDB();
-
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("API is running");
 })
 // For UserRoutes
-app.use('/api/user',userRoutes);
+ app.use('/api/user', cors(),require('./routes/userRoutes'));
+
 
 // For error handling functions
  
-app.use(notFound);
-app.use(errorHandler);
+
 
 const PORT = process.env.PORT || 5000
 

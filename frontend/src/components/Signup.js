@@ -1,8 +1,110 @@
 import React, { useState } from "react";
-function Signup({toggleComponent}) {
+
+
+function Signup({ toggleComponent}) {
+  // const [show, setShow] = useState(false);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  // const [confirmpassword, setConfirmpassword] = useState();
+  const [profilePic, setprofilePic] = useState();
+  const [picLoading, setPicLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // const handleClick = () => setShow(!show);
+  
+  const submitHandler = async () => {
+    setPicLoading(true);
+    if (!name || !email || !password) {
+      setPicLoading(false);
+      alert("fill all the required fields");
+      return;
+    }
+    console.log(name, email, password, profilePic);
+    try {
+      // const config = {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //   },
+      // };
+      // const { data } = await axios.post(
+      //   "/api/user",
+      //   {
+      //     name,
+      //     email,
+      //     password,
+      //     profilePic,
+      //   },
+      //   config
+      // );
+      // const data = {
+      //   name,
+      //   email,
+      //   password,
+      //   profilePic
+      // };
+      // console.log(JSON.stringify(data));
+      fetch('http://localhost:3001/api/user', {
+        method: 'POST',
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          profilePic
+        })
+
+      }).then(() => {
+        // console.log(JSON.stringify(data));
+        alert("Registration successfull");
+        localStorage.setItem("userInfo", JSON.stringify({
+          name,
+          email,
+          password,
+          profilePic
+        }));
+        setPicLoading(false);
+
+      })
+    } catch (error) {
+      alert(error.message);
+      setPicLoading(false);
+    }
+
+  };
+
+  const postDetails = (pics) => {
+    console.log(pics);
+    setPicLoading(true);
+    if (pics === undefined) {
+      alert("Try uploading again");
+      return;
+    }
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      fetch("https://www.filestackapi.com/api/store/S3?key=AD8Dd3nHvQ4WRSf3cfCJJz", {
+        method: "POST",
+        headers: {"content-type":"image/png"},
+        data : data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setprofilePic(data.url.toString());
+          console.log(data.url.toString());
+          setPicLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("cloudinary");
+          setPicLoading(false);
+        });
+    } else {
+      alert("use only jpeg and png format");
+      setPicLoading(false);
+      return;
+    }
+  };
 
   return (
     <div className="font-bold text-4xl">
@@ -43,7 +145,6 @@ function Signup({toggleComponent}) {
                   />
                 </div>
               </div>
-
               <div>
                 <div className="flex items-center justify-between">
                   <label
@@ -62,70 +163,35 @@ function Signup({toggleComponent}) {
                 </div>
               </div>
               <div>
-                {/* <div className="flex items-center justify-between">
-                  <label
-                    for="password"
-                    className="block text-sm font-large leading-6 text-black font-Poppins"
-                  >
-                    Confirm Password
-                  </label>
-                </div> */}
+                <h1>Upload and Display Image usign React Hook's</h1>
 
-                {/* <div className="mt-2">
-                  <input
-                    type="text"
-                    class="bg-transparent border-b-4  border-gray-300 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
-                  />
-                </div> */}
-              </div>
-              <div>
-                <label
-                  for="password"
-                  className="block text-xl font-large leading-6 text-black font-Poppins"
-                >
-                  Upload profile pic
-                </label>
-              </div>
-              <div class="max-w-2xl rounded-lg shadow-xl bg-gray-50">
-                <div class="m-4">
-                  <div class="flex items-center justify-center w-full">
-                    <label class="flex flex-col w-full h-10 border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
-                      <div class="flex flex-col items-center justify-center pt-7">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="w-1 h-1 text-gray-400 group-hover:text-gray-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                          />
-                        </svg>
-                        <p class="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
-                          Attach a file
-                        </p>
-                      </div>
-                      <input type="file" class="opacity-0.25" />
-                    </label>
+                {selectedImage && (
+                  <div>
+                    <img
+                      alt="not found"
+                      width={"250px"}
+                      src={URL.createObjectURL(selectedImage)}
+                    />
+                    <br />
+                    <button onClick={() => setSelectedImage(null)}>Remove</button>
                   </div>
-                </div>
-                <div class="flex justify-begin p-2">
-                  <button
-                    type="submit"
-                    className="flex w-half justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Upload
-                  </button>
-                </div>
+                )}
+
+                <br />
+                <br />
+                
+                <input
+                  type="file"
+                  name="myImage"
+                  onChange={(e) => postDetails(e.target.files[0])}
+                />
               </div>
               <div>
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={submitHandler}
+                  isLoading={picLoading}
                 >
                   Sign Up
                 </button>

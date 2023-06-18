@@ -4,8 +4,9 @@ const generateToken=require('../config/generateToken');
 
 
 const registerUser = asyncHandler(async (req,res)=>{
-    const {name,email,password,pic}=req.body;
-
+    const { name, email, password, profilePic } = req.body;
+    console.log("hello");
+    console.log(req.body);
     if(!name||!email||!password){
         res.status(400);
         throw new Error("You are requested to enter all Feilds");
@@ -22,16 +23,17 @@ const registerUser = asyncHandler(async (req,res)=>{
         name,
         email,
         password,
-        pic,
+        profilePic,
     });
     if(user){
         res.status(201).json({
             _id: user._id,
             name:user.name,
             email:user.email,
-            pic:user.pic,
+            profilePic:user.profilePic,
             token:generateToken(user._id),
         })
+        res.send("Done");
     }else{
         res.status(400);
         throw new Error("Failed to create the new user");
@@ -48,7 +50,7 @@ const authenticateUser=asyncHandler(async(req,res)=>{
             _id: user._id,
             name:user.name,
             email:user.email,
-            pic:user.pic,
+            profilePic:user.profilePic,
             token:generateToken(user._id),
         })
     }else{
