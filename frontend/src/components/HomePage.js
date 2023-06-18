@@ -3,7 +3,6 @@ import Login from "./Login";
 import Signup from "./Signup";
 
 function HomePage() {
-  var login='Login'
   const [activeComponent,setActiveComponent]=useState('login');
   const toggleComponent=()=>{
     setActiveComponent(activeComponent==='login'?'signup':'login');
@@ -11,9 +10,9 @@ function HomePage() {
   return (
       <div>
       {activeComponent === 'login' ? (
-        <Login toggleComponent={toggleComponent} />
+        <Login toggleComponent={toggleComponent}/>
       ) : (
-        <Signup toggleComponent={toggleComponent} />
+        <Signup toggleComponent={toggleComponent}/>
       )}
     </div>
   )
