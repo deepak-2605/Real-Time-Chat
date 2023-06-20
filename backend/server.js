@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const connecttoDB = require("./config/db");
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 var bodyParser = require('body-parser');   
+const chatRoutes=require('./routes/chatRoutes');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 const app = express();
 
@@ -19,6 +20,9 @@ app.get("/", (req, res) => {
 // For UserRoutes
  app.use('/api/user', cors(),require('./routes/userRoutes'));
 
+//  Chat Routes
+
+app.use('/api/chat',chatRoutes);
 
 // For error handling functions
  
