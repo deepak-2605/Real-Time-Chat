@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-
-function Signup({ toggleComponent}) {
+function Signup({ toggleComponent }) {
   // const [show, setShow] = useState(false);
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -12,7 +11,7 @@ function Signup({ toggleComponent}) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   // const handleClick = () => setShow(!show);
-  
+
   const submitHandler = async () => {
     setPicLoading(true);
     if (!name || !email || !password) {
@@ -44,33 +43,33 @@ function Signup({ toggleComponent}) {
       //   profilePic
       // };
       // console.log(JSON.stringify(data));
-      fetch('http://localhost:3001/api/user', {
-        method: 'POST',
+      fetch("http://localhost:3001/api/user", {
+        method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
           name,
           email,
           password,
-          profilePic
-        })
-
+          profilePic,
+        }),
       }).then(() => {
         // console.log(JSON.stringify(data));
         alert("Registration successfull");
-        localStorage.setItem("userInfo", JSON.stringify({
-          name,
-          email,
-          password,
-          profilePic
-        }));
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            name,
+            email,
+            password,
+            profilePic,
+          })
+        );
         setPicLoading(false);
-
-      })
+      });
     } catch (error) {
       alert(error.message);
       setPicLoading(false);
     }
-
   };
 
   const postDetails = (pics) => {
@@ -83,11 +82,14 @@ function Signup({ toggleComponent}) {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
-      fetch("https://www.filestackapi.com/api/store/S3?key=AD8Dd3nHvQ4WRSf3cfCJJz", {
-        method: "POST",
-        headers: {"content-type":"image/png"},
-        data : data,
-      })
+      fetch(
+        "https://www.filestackapi.com/api/store/S3?key=AD8Dd3nHvQ4WRSf3cfCJJz",
+        {
+          method: "POST",
+          headers: { "content-type": "image/png" },
+          data: data,
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           setprofilePic(data.url.toString());
@@ -127,7 +129,8 @@ function Signup({ toggleComponent}) {
                 <div Name="mt-2">
                   <input
                     type="text"
-                    className="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base" onChange={(e) => setName(e.target.value)}
+                    className="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
@@ -141,7 +144,8 @@ function Signup({ toggleComponent}) {
                 <div Name="mt-2">
                   <input
                     type="text"
-                    className="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base" onChange={(e) => setEmail(e.target.value)}
+                    className="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -158,13 +162,13 @@ function Signup({ toggleComponent}) {
                 <div className="mt-2">
                   <input
                     type="text"
-                    class="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base" onChange={(e) => setPassword(e.target.value)}
+                    class="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
               <div>
-                <h1>Upload and Display Image usign React Hook's</h1>
-
+                <h3>Upload image</h3>
                 {selectedImage && (
                   <div>
                     <img
@@ -173,13 +177,12 @@ function Signup({ toggleComponent}) {
                       src={URL.createObjectURL(selectedImage)}
                     />
                     <br />
-                    <button onClick={() => setSelectedImage(null)}>Remove</button>
+                    <button onClick={() => setSelectedImage(null)}>
+                      Remove
+                    </button>
                   </div>
                 )}
-
                 <br />
-                <br />
-                
                 <input
                   type="file"
                   name="myImage"
@@ -199,7 +202,8 @@ function Signup({ toggleComponent}) {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" onClick={toggleComponent}
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={toggleComponent}
                 >
                   Log in
                 </button>
