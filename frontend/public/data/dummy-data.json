@@ -1,0 +1,18 @@
+[
+    {
+      "name": "Aditya",
+      "profilePic": "./images/profilePhoto.png",
+      "email": "aditya@gmail.com"
+    },
+    {
+      "name": "Aditya2",
+      "profilePic": "./images/profilePhoto.png",
+      "email": "aditya2@gmail.com"
+    },
+    {
+      "name": "Aditya3",
+      "profilePic": "./images/profilePhoto.png",
+      "email": "aditya3@gmail.com"
+    }
+  ]
+  
