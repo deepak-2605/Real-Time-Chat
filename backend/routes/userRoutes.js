@@ -3,7 +3,7 @@ const {registerUser,authenticateUser,getAllUsers}=require('../controllers/userCo
 const {protect}=require("../middleware/authMiddleware");
 const router=express.Router();
 
-router.route("/").post(registerUser).get(protect,getAllUsers);
+router.route("/").post(registerUser);
 
 router.post("/login",authenticateUser)
 

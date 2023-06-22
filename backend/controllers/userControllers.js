@@ -33,7 +33,6 @@ const registerUser = asyncHandler(async (req,res)=>{
             profilePic:user.profilePic,
             token:generateToken(user._id),
         })
-        res.send("Done");
     }else{
         res.status(400);
         throw new Error("Failed to create the new user");
@@ -42,7 +41,6 @@ const registerUser = asyncHandler(async (req,res)=>{
 
 const authenticateUser=asyncHandler(async(req,res)=>{
     const {email,password}=req.body;
-
     const user=await User.findOne({email});
 
     if(user&&(await user.matchPassword(password))){

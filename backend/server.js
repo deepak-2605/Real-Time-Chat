@@ -6,6 +6,7 @@ const connecttoDB = require("./config/db");
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 var bodyParser = require('body-parser');   
 const chatRoutes=require('./routes/chatRoutes');
+const messageRoutes=require('./routes/messageRoutes');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 const app = express();
 
@@ -18,11 +19,15 @@ app.get("/", (req, res) => {
     res.send("API is running");
 })
 // For UserRoutes
- app.use('/api/user', cors(),require('./routes/userRoutes'));
+ app.use('/api/user', cors(), require('./routes/userRoutes'));
 
 //  Chat Routes
 
-app.use('/api/chat',chatRoutes);
+app.use('/api/chat',cors(), chatRoutes);
+
+// message routes
+
+app.use("/api/message", messageRoutes);
 
 // For error handling functions
  
