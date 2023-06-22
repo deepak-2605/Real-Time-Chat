@@ -66,7 +66,7 @@ const getChats=asyncHandler(async(req,res)=>{
     }
 })
 
-const createGroupChat=asyncHandler(async(req,res)=>{
+const createGroupChat = asyncHandler(async (req, res) => {
     if(!req.body.users||!req.body.name){
         return res.status(400).send({measage: "Please Fill All the feilds."})
     }
@@ -84,6 +84,7 @@ const createGroupChat=asyncHandler(async(req,res)=>{
                  isGroupChat:true,
                  groupAdmin:req.user,
         })
+        console.log(newgroupChat);
         const fullGroupChat=await Chat.findOne({_id:newgroupChat._id})
         .populate("usersList","-password")
         .populate("groupAdmin","-password")

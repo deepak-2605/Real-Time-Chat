@@ -13,42 +13,33 @@ function Login({ toggleComponent }) {
       return;
     }
 
-    try {
-      // const config = {
-      //   headers: {
-      //     "Content-type": "application/json",
-      //   },
-      // };
-
-      // const { data } = await axios.post(
-      //   "/api/user/login",
-      //   { email, password },
-      //   config
-      // );
-      fetch('http://localhost:3001/api/user/login', {
-        method: 'POST',
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password
-        })
-
-      }).then(() => {
-        // console.log(JSON.stringify(data));
-        console.log("Login successfull");
-        localStorage.setItem("userInfo", JSON.stringify({
-          email,
-          password
-        }));
-        setLoading(false);
-
+    fetch('http://localhost:3001/api/user/login', {
+      method: 'POST',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password
       })
 
-      // console.log(JSON.stringify(data));
-    } catch (error) {
-      console.log("error occured");
-      setLoading(false);
-    }
+    }).then((res) => {
+      if (res.ok) {
+        alert("Login successfull");
+        localStorage.setItem("userInfo", JSON.stringify({
+          "name": res.name,
+          "email": res.email,
+          "password": res.password,
+          "profilePic":res.profilePic
+        }));
+        setLoading(false);
+        toggleComponent("chats")
+      } else {
+        setLoading(false);
+        alert("error occured");
+      }
+      
+      
+    })
+    
   };
   return (
     <div NameName="font-bold text-4xl">
@@ -120,7 +111,7 @@ function Login({ toggleComponent }) {
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-b;ack shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  onClick={toggleComponent}
+                  onClick={()=>toggleComponent("signup")}
                 >
                   Don't have an Account?
                 </button>
