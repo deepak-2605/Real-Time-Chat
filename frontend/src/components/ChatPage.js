@@ -17,7 +17,7 @@ const ChatPage = () => {
           <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         )}
       </div> */}
-          Aditya here
+        <div className="text-4xl text-center">This is the Chatpage</div>
     </div>
   );
 };

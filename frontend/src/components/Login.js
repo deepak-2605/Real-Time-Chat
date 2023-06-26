@@ -1,46 +1,46 @@
 import React, { useState } from "react";
+import axios from 'axios'
+import { useNavigate } from "react-router";
+
 
 function Login({ toggleComponent }) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
-
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e.preventDefault();
     setLoading(true);
     if (!email || !password) {
-      alert("wrong email or password")
+      alert("Enter all fields");
       setLoading(false);
       return;
     }
-
-    fetch('http://localhost:3001/api/user/login', {
-      method: 'POST',
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password
-      })
-
-    }).then((res) => {
-      if (res.ok) {
-        alert("Login successfull");
-        localStorage.setItem("userInfo", JSON.stringify({
-          "name": res.name,
-          "email": res.email,
-          "password": res.password,
-          "profilePic":res.profilePic
-        }));
+    const response = await fetch("http://localhost:3001/api/user/login", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email,password})
+    });
+    const json = await response.json()
+    console.log(json);
+    if (json.success){
+        // Save the auth token and redirect
+        localStorage.setItem('token', json.authtoken); 
         setLoading(false);
-        toggleComponent("chats")
-      } else {
+        navigate("/chat");
+    }
+    else {
         setLoading(false);
-        alert("error occured");
-      }
-      
-      
-    })
+        alert("Invalid credentials");
+    }
     
   };
+  
+  function handleClick() {
+    navigate("/signup");
+  }
   return (
     <div NameName="font-bold text-4xl">
       <div className="flex min-h-full flex-col justify-center align-middle px-6 py-12 lg:px-8">
@@ -51,7 +51,7 @@ function Login({ toggleComponent }) {
             </h2>
           </div>
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm ">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6">
               <div>
                 <label
                   for="username"
@@ -111,7 +111,7 @@ function Login({ toggleComponent }) {
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-semibold leading-6 text-b;ack shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  onClick={()=>toggleComponent("signup")}
+                  onClick={handleClick}
                 >
                   Don't have an Account?
                 </button>

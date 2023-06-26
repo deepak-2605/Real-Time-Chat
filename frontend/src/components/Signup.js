@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios"
 
 function Signup({ toggleComponent }) {
   // const [show, setShow] = useState(false);
+  const navigate = useNavigate();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -13,67 +15,44 @@ function Signup({ toggleComponent }) {
 
   // const handleClick = () => setShow(!show);
 
-  const submitHandler = async () => {
+  const submitHandler = async (e) => {
+    e.preventDefault();
     setPicLoading(true);
     if (!name || !email || !password) {
       setPicLoading(false);
       alert("fill all the required fields");
       return;
     }
-    console.log(name, email, password, profilePic);
-      // await fetch("http://localhost:3001/api/user", {
-      //   method: "POST",
-      //   headers: { "Content-type": "application/json" },
-      //   body: JSON.stringify({
-      //     name,
-      //     email,
-      //     password,
-      //     profilePic,
-      //   }),
-      // }).then(res => res.json)
-      //   .then((data)=>{
-      //     alert("Registration successfull");
-      //     localStorage.setItem(
-      //       "userInfo",
-      //       JSON.stringify({
-      //         name,
-      //         email,
-      //         password,
-      //         profilePic,
-      //       })
-      //     );
-      //     toggleComponent("chats");
-      //     setPicLoading(false);
-      // }).catch ((error) => {
-      //   alert("nhi hua");
-      //   setPicLoading(false);
-      // })
-    try {
-      const config = {
+    const response = await fetch("http://localhost:3001/api/user", {
+        method: 'POST',
         headers: {
-          "Content-type": "application/json",
+            'Content-Type': 'application/json'
         },
-      };
-      const { data } = await axios.post(
-        "http://localhost:3001/api/user",
+      body: JSON.stringify(
         {
           name,
           email,
           password,
-          profilePic,
-        },
-        config
-      );
-      console.log(data);
-      alert("Registraion successfull");
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setPicLoading(false);
-      toggleComponent("chats");
-    } catch (error) {
-      alert("error occured");
-      setPicLoading(false);
+          profilePic
+        })
+    });
+    const json = await response.json()
+    console.log(json);
+    if (json.success){
+        // Save the auth token and redirect
+        localStorage.setItem('token', json.authtoken); 
+        setPicLoading(false);
+        navigate("/chat");
     }
+    else {
+        setPicLoading(false);
+        alert("Invalid credentials");
+    } 
   };
+
+  function handleClick() {
+    navigate("/");
+  }
 
   const postDetails = (pics) => {
     console.log(pics);
@@ -206,7 +185,7 @@ function Signup({ toggleComponent }) {
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  onClick={()=>toggleComponent("login")}
+                  onClick={handleClick}
                 >
                   Log in
                 </button>
