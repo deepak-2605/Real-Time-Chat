@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req,res)=>{
         }
         const authtoken = jwt.sign(data, JWT_SECRET);
         success = true;
-        res.json({ success, authtoken })
+        res.json({ success, authtoken,user })
         
 
   } catch (error) {
@@ -65,7 +65,7 @@ const authenticateUser=asyncHandler(async(req,res)=>{
     }
     const authtoken = jwt.sign(data, JWT_SECRET);
     success = true;
-    res.json({ success, authtoken })
+    res.json({ success, authtoken,user })
 
   } catch (error) {
     console.error(error.message);
@@ -76,14 +76,18 @@ const authenticateUser=asyncHandler(async(req,res)=>{
 
 // Route will be /api/user
 const getAllUsers=asyncHandler(async(req,res)=>{
-   try {
-    userId = req.user.id;
-    const user = await User.findById(userId).select("-password");
-    res.send(user)
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send("Internal Server Error");
-  }
+   const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const users = await User.find(keyword).find({_id: { $ne: req.user_id } });
+  res.send(users);
+  
 
 })
 

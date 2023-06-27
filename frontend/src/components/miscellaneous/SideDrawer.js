@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ProfileModal from "./ProfileModal.js";
 import Drawer from "./Drawer.js";
+import { useNavigate } from "react-router";
 
 
-const SideDrawer = () => {
+const SideDrawer = ({User}) => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,13 +13,15 @@ const SideDrawer = () => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const notiback="#cbba06";
-
-  const user={
-    "name":"Aditya",
-    "profilePic":"./images/profilePhoto.png",
-    "email":"aditya@gmail.com"
-  }
-
+  const token=localStorage.getItem('token');
+  const navigate=useNavigate();
+  // console.log(token);
+  const user=User;
+//  Logout Handler
+ const logouthandler=()=>{
+  localStorage.removeItem("token");
+  navigate("/");
+ }
   const openModal = () => {
     setModalOpen(true);
   };
@@ -33,7 +36,7 @@ const SideDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
   const loadSearch = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setSearch(e.target.value);
   };
   return (
@@ -84,6 +87,7 @@ const SideDrawer = () => {
             isOpen={drawerOpen}
             onClose={toggleDrawer}
             searchLoader={loadSearch}
+            authtoken={token}
           />
         </div>
         <div>
@@ -121,6 +125,7 @@ const SideDrawer = () => {
                     <button
                       type="button"
                       className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                      onClick={logouthandler}
                     >
                       Sign Out
                     </button>

@@ -1,9 +1,30 @@
 import React from "react";
 import "./drawer.css";
-
-const Drawer = ({ isOpen, onClose, searchLoader }) => {
-  if (!isOpen) {
+import { useState } from "react";
+const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
+  const [searchValue,setSearchValue]=useState('');
+  const [loading, setLoading] = useState(false);
+   if (!isOpen) {
     return null;
+  } 
+  const handleSearch= async (e)=>{
+    e.preventDefault();
+    setLoading(true);
+     if(!searchValue){
+      // throw error create a prompt for throwing error
+      // alert("Enter Something")
+      setLoading(false);
+      return;
+     }
+     const config={
+      headers:{
+        Authorization:`Bearer ${authtoken}`,
+      }
+     }
+     const response=await fetch(`http://localhost:3001/api/user?search=${searchValue}`,config);
+     const data=await response.json();
+     setLoading(false);
+     console.log(data);
   }
   return (
     <div
@@ -25,14 +46,16 @@ const Drawer = ({ isOpen, onClose, searchLoader }) => {
               class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
               id="inline-full-name"
               type="text"
-              value="Enter Search"
-              onChange={(e) => searchLoader}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder="Enter Search"
             />
           </div>
           <div className="px-2">
             <button
               class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               type="button"
+              onClick={handleSearch}
             >
               Go
             </button>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from 'axios'
 import { useNavigate } from "react-router";
 
 
@@ -24,12 +23,12 @@ function Login({ toggleComponent }) {
         body: JSON.stringify({email,password})
     });
     const json = await response.json()
-    console.log(json);
+    // console.log(json);
     if (json.success){
         // Save the auth token and redirect
         localStorage.setItem('token', json.authtoken); 
         setLoading(false);
-        navigate("/chat");
+        navigate('/chat', { state: { user: json.user, authtoken: json.authtoken  } });
     }
     else {
         setLoading(false);
