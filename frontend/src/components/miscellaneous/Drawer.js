@@ -1,9 +1,11 @@
-import React from "react";
+import React, { createElement, useEffect } from "react";
 import "./drawer.css";
 import { useState } from "react";
+import UserListItem from "./UserListItem";
 const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
   const [searchValue,setSearchValue]=useState('');
   const [loading, setLoading] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
    if (!isOpen) {
     return null;
   } 
@@ -13,7 +15,7 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
      if(!searchValue){
       // throw error create a prompt for throwing error
       // alert("Enter Something")
-      setLoading(false);
+      // setLoading(false);
       return;
      }
      const config={
@@ -21,14 +23,17 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
         Authorization:`Bearer ${authtoken}`,
       }
      }
-     const response=await fetch(`http://localhost:3001/api/user?search=${searchValue}`,config);
-     const data=await response.json();
-     setLoading(false);
-     console.log(data);
+     const response = await fetch(`http://localhost:3001/api/user?search=${searchValue}`,config);
+     const data = await response.json();
+    setSearchResult(data);
+    setLoading(false);
+    //  console.log(data);
   }
+  
+
   return (
     <div
-      className="fixed left-0 top-0 h-full bg-green-400 text-white w-96 p-4 "
+      className="fixed left-0 top-0 h-full bg-gray-600 text-white w-96 p-4 "
       style={{ borderRadius: 10 }}
     >
       <div>
@@ -48,12 +53,13 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
               type="text"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Enter Search"
+              placeholder="Enter Username or Email"
+              width="70%"
             />
           </div>
           <div className="px-2">
             <button
-              class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              class="shadow bg-blue-500 hover:bg-blue-900 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               type="button"
               onClick={handleSearch}
             >
@@ -62,14 +68,28 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
           </div>
         </div>
         <div>
-          <div class="animate-pulse">
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-            <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+          <div id="animate-pulse" class="animate-pulse">
+            {
+              loading && 
+              <div><div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+                </div>
+            }
+            
+          </div>
+          <div id="search_result">
+            {!loading && searchResult?.map((user) => (
+            <UserListItem
+              key={user._id}
+              user={user}
+            />
+            ))
+            }
           </div>
         </div>
       </div>
