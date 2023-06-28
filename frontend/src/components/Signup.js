@@ -42,7 +42,7 @@ function Signup({ toggleComponent }) {
         // Save the auth token and redirect
         localStorage.setItem('token', json.authtoken); 
         setPicLoading(false);
-        navigate("/chat");
+        navigate('/chat', { state: { user: json.user, authtoken: json.authtoken } });
     }
     else {
         setPicLoading(false);

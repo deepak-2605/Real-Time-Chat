@@ -2,7 +2,7 @@ import {useLocation } from "react-router";
 import Chatbox from "../components/miscellaneous/ChatBox";
 import MyChats from "../components/miscellaneous/Chat";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
-import { ChatState } from "../Context/ChatProvider";
+import { ChatState } from "../context/ChatProvider";
 
 const ChatPage = () => {
   // const [fetchAgain, setFetchAgain] = useState(false);
