@@ -27,7 +27,7 @@ app.use('/api/chat', cors() , chatRoutes);
 
 // message routes
 
-app.use("/api/message", cors() ,messageRoutes);
+app.use("/api/message",messageRoutes);
 
 // For error handling functions
  

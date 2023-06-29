@@ -13,9 +13,8 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
     e.preventDefault();
     setLoading(true);
      if(!searchValue){
-      // throw error create a prompt for throwing error
-      // alert("Enter Something")
-      // setLoading(false);
+      alert("Enter Something")
+      setLoading(false);
       return;
      }
      const config={
@@ -23,11 +22,10 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
         Authorization:`Bearer ${authtoken}`,
       }
      }
-     const response = await fetch(`http://localhost:3001/api/user?search=${searchValue}`,config);
-     const data = await response.json();
+    const response = await fetch(`http://localhost:3001/api/user?search=${searchValue}`,config);
+    const data = await response.json();
     setSearchResult(data);
     setLoading(false);
-    //  console.log(data);
   }
   
 
@@ -78,7 +76,7 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
-                </div>
+              </div>
             }
             
           </div>
@@ -86,7 +84,8 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
             {!loading && searchResult?.map((user) => (
             <UserListItem
               key={user._id}
-              user={user}
+                user={user}  
+                authtoken={authtoken}
             />
             ))
             }

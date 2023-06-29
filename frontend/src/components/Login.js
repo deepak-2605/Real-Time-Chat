@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
 
-function Login({ toggleComponent }) {
+function Login(prop) {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -11,7 +11,7 @@ function Login({ toggleComponent }) {
     e.preventDefault();
     setLoading(true);
     if (!email || !password) {
-      alert("Enter all fields");
+      alert("Enter all required fields");
       setLoading(false);
       return;
     }
@@ -23,12 +23,10 @@ function Login({ toggleComponent }) {
         body: JSON.stringify({email,password})
     });
     const json = await response.json()
-    // console.log(json);
-    if (json.success){
-        // Save the auth token and redirect
-        localStorage.setItem('token', json.authtoken); 
-        setLoading(false);
-        navigate('/chat', { state: { user: json.user, authtoken: json.authtoken  } });
+    if (json.success) {
+      localStorage.setItem('token', json.authtoken); 
+      navigate('/chat', { state: { user: json.user, authtoken: json.authtoken } });
+      setLoading(false);
     }
     else {
         setLoading(false);
@@ -46,7 +44,7 @@ function Login({ toggleComponent }) {
         <div className="bg-gray-300 bg-opacity-70 py-8 mt-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">
-              Please Login into your account
+              {prop.message}
             </h2>
           </div>
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm ">

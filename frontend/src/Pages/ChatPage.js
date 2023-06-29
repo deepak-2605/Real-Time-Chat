@@ -7,18 +7,16 @@ import { ChatState } from "../context/ChatProvider";
 const ChatPage = () => {
   // const [fetchAgain, setFetchAgain] = useState(false);
   //  const token=localStorage.getItem('token');
-    const location = useLocation();
-  const { user,authtoken} = location.state || {};
-   const userObject = {
-    name: user.name,
-    email: user.email,
-    profilePic: user.profilePic
-  };
-  // console.log(userObject);
-  // console.log(authtoken);
+  const location = useLocation();
+    const { user,authtoken} = location.state || {};
+    const userObject = {
+      name: user.name,
+      email: user.email,
+      profilePic: user.profilePic
+    };
   return (
     <>
-    <SideDrawer User={userObject}></SideDrawer>
+    <SideDrawer User={userObject} authtoken={authtoken}></SideDrawer>
     </>
   );
 };

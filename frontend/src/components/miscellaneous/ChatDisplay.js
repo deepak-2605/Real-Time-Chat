@@ -1,12 +1,11 @@
 import React from "react";
 import "./drawer.css";
 import Chat from "./Chat";
-const ChatDisplay = ({User}) => {
-  const {name,profilePic,chat}=User;
+const ChatDisplay = ({chatName, recentMessage}) => {
   return (
     <div>
-      <div className="display w-96 mx-2 h-full bg-white rounded-2xl px-3 py-4">
-        <div className="flex">
+      {/* <div className="display w-96 mx-2 h-full bg-white rounded-2xl px-3 py-4"> */}
+        {/* <div className="flex">
           <div className="h-12 pr-40">
             <h1>My Chats</h1>
           </div>
@@ -22,22 +21,18 @@ const ChatDisplay = ({User}) => {
                 <i class="fa-solid fa-plus"></i>
               </div>
             </button>
-          </div>
-        </div>
-        <div>
+          </div> */}
+        {/* </div> */}
+        {/* <div className="flex border-4 border-gray-400 h-20">
           <div>
-            <Chat User={User}/>
-            <Chat User={User}/>
-            <Chat User={User}/>
-            <Chat User={User}/>
-            <Chat User={User}/>
-            <Chat User={User}/>
-            <Chat User={User}/>
-            <Chat User={User}/>
+            {chatName}
           </div>
-        </div>
+          <div>
+            {recentMessage}
+          </div>
+        </div> */}
       </div>
-    </div>
+    // </div>
   );
 };
 
