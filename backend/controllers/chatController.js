@@ -2,7 +2,7 @@ const asyncHandler=require("express-async-handler");
 const Chat=require('../models/chatSchema');
 const User=require('../models/userSchema');
 const Message=require('../models/messageSchema');
-const accessChat=asyncHandler(async(req,res)=>{
+const accessChat = asyncHandler(async (req, res) => {
     const {userId}=req.body;
     if(!userId){
         console.log("UserId param not sent with request");
@@ -22,7 +22,8 @@ const accessChat=asyncHandler(async(req,res)=>{
 
     })
 
-    if(isChatExist.length>0){
+    if (isChatExist.length > 0) {
+        console.log("chat already exists");
         res.send(isChatExist[0]);
     }else{
         var chat={
@@ -35,7 +36,7 @@ const accessChat=asyncHandler(async(req,res)=>{
             const newchat=await Chat.create(chat);
 
             const FullChat=await Chat.findOne({_id: newchat._id}).populate("usersList","-password").populate("recentMessage");
-
+            console.log("chat created");
             res.status(200).send(FullChat);
         } catch(error){
             res.status(400);

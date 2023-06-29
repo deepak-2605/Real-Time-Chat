@@ -13,7 +13,7 @@ const ProfileModal = ({ User, isOpen, onClose }) => {
             </div>
             <div className="flex items-center justify-center mb-2">
               <img
-                src={profilePic}
+                //src={profilePic}
                 alt="user image"
                 className="w-36 h-36 object-cover"
                 style={{ borderRadius: 72 }}

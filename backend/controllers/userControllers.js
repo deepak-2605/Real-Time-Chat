@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req,res)=>{
         }
         const authtoken = jwt.sign(data, JWT_SECRET);
         success = true;
-        res.json({ success, authtoken,user })
+        res.json({ success, authtoken, user })
         
 
   } catch (error) {
@@ -65,7 +65,7 @@ const authenticateUser=asyncHandler(async(req,res)=>{
     }
     const authtoken = jwt.sign(data, JWT_SECRET);
     success = true;
-    res.json({ success, authtoken,user })
+    res.json({ success, authtoken, user })
 
   } catch (error) {
     console.error(error.message);
@@ -85,7 +85,7 @@ const getAllUsers=asyncHandler(async(req,res)=>{
       }
     : {};
 
-  const users = await User.find(keyword).find({_id: { $ne: req.user_id } });
+  const users = await User.find(keyword).find({_id: { $ne: req.user._id } });
   res.send(users);
   
 

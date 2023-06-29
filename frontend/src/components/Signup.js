@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios"
 
-function Signup({ toggleComponent }) {
-  // const [show, setShow] = useState(false);
+function Signup({handleregister}) {
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  // const [confirmpassword, setConfirmpassword] = useState();
+  const [confirmPassword, setconfirmPassword] = useState();
   const [profilePic, setprofilePic] = useState();
   const [picLoading, setPicLoading] = useState(false);
+  const [loading, setloading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // const handleClick = () => setShow(!show);
+  // const handleClickShow = () => setShow(!show);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setPicLoading(true);
-    if (!name || !email || !password) {
-      setPicLoading(false);
+    setloading(true);
+    if (!name || !email || !password || !confirmPassword) {
       alert("fill all the required fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      alert("password do not match");
       return;
     }
     const response = await fetch("http://localhost:3001/api/user", {
@@ -39,15 +42,16 @@ function Signup({ toggleComponent }) {
     const json = await response.json()
     console.log(json);
     if (json.success){
-        // Save the auth token and redirect
-        localStorage.setItem('token', json.authtoken); 
-        setPicLoading(false);
-        navigate('/chat', { state: { user: json.user, authtoken: json.authtoken } });
+      localStorage.setItem('token', json.authtoken);
+      alert("Registration successful");
+      handleregister("Registration successfull, login to continue");
+      navigate('/');
+      setloading(false);
     }
     else {
-        setPicLoading(false);
-        alert("Invalid credentials");
-    } 
+      alert("Invalid credentials");
+      setloading(false);
+    }     
   };
 
   function handleClick() {
@@ -55,10 +59,10 @@ function Signup({ toggleComponent }) {
   }
 
   const postDetails = (pics) => {
-    console.log(pics);
     setPicLoading(true);
     if (pics === undefined) {
       alert("Try uploading again");
+      setPicLoading(false);
       return;
     }
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
@@ -80,7 +84,6 @@ function Signup({ toggleComponent }) {
         })
         .catch((err) => {
           console.log(err);
-          console.log("cloudinary");
           setPicLoading(false);
         });
     } else {
@@ -150,6 +153,24 @@ function Signup({ toggleComponent }) {
                 </div>
               </div>
               <div>
+                <div className="flex items-center justify-between">
+                  <label
+                    for="password"
+                    className="block text-xl font-large leading-6 text-black font-Poppins"
+                  >
+                    Confirm Password
+                  </label>
+                </div>
+
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    class="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
+                    onChange={(e) => setconfirmPassword(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
                 <h3>Upload image</h3>
                 {selectedImage && (
                   <div>
@@ -176,7 +197,7 @@ function Signup({ toggleComponent }) {
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={submitHandler}
-                  isLoading={picLoading}
+                  isLoading={loading}
                 >
                   Sign Up
                 </button>
