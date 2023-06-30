@@ -5,6 +5,7 @@ import "../components/miscellaneous/loader.css"
 import ChatDisplay from "../components/miscellaneous/ChatDisplay";
 // import "../components/miscellaneous/profilePhoto.js"
 import { useState, useEffect } from "react";
+import GroupChatModal from "../components/miscellaneous/GroupChatModal";
 const ChatPage = () => {
   const location = useLocation();
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -19,6 +20,7 @@ const ChatPage = () => {
   const [chatList, setchatList] = useState([]);
   const [chatmessages, setChatmessages] = useState([]);
   const [chatLoading, setchatLoading] = useState(false);
+
   useEffect(() => {
     const getchatlist = async () => {
       const config = {
@@ -64,6 +66,11 @@ const ChatPage = () => {
     setChatmessages(allmessages);
     console.log(allmessages);
   };
+  // Group Chat Functionality
+   const [GroupModal,setGroupModal]=useState(false);
+   const handleClickNewGroup = () => {
+    setGroupModal(!GroupModal);
+  };
   return (
     <div style={{ height: 700 }}>
       <SideDrawer
@@ -79,17 +86,7 @@ const ChatPage = () => {
               <h1 className="text-white font-['inter']">My Chats</h1>
             </div>
             <div>
-              <button
-                className="flex items-centre justify-center hover:bg-gray-300"
-                style={{ borderRadius: 15, height: 30, padding: 4 }}
-              >
-                <div className="px-2 font-['inter']">
-                  <p className="text-white">New Group</p>
-                </div>
-                <div>
-                  <i class="fa-solid fa-plus"></i>
-                </div>
-              </button>
+          
             </div>
           </div>
           <div
@@ -142,7 +139,28 @@ const ChatPage = () => {
             </div>}
         </div>
       </div>
+      {/* Group chat Modal starts */}
+      <div>
+            <button
+                className="flex items-centre justify-center hover:bg-gray-300"
+                style={{ borderRadius: 15, height: 30, padding: 4 }}
+              >
+                
+                <div className="px-2 font-['inter']">
+                  <p className="text-white" onClick={handleClickNewGroup}>New Group</p>
+                </div>
+                 {GroupModal && (
+        <GroupChatModal authtoken={authtoken} chatList={chatList}
+        setchatList={setchatList}></GroupChatModal>
+      )}
+                <div>
+                  <i class="fa-solid fa-plus"></i>
+                </div>
+              </button>
+      </div>
+      {/* Group Chat Modal ends */}
     </div>
+    
   );
 };
 
