@@ -1,0 +1,33 @@
+@keyframes expandAndShrink {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+  }
+  
+  @keyframes delayAnimation {
+    0%, 100% { animation-timing-function: ease-in-out; }
+    50% { animation-timing-function: ease-in-out; }
+  }
+  
+  .dot {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 45px;
+  }
+  
+  /* Animation for the first dot */
+  .animate-dot1 {
+    animation: expandAndShrink 0.9s infinite, delayAnimation 0.9s infinite;
+  }
+  
+  /* Animation for the second dot */
+  .animate-dot2 {
+    animation: expandAndShrink 0.9s infinite 0.3s, delayAnimation 0.9s infinite 0.3s;
+  }
+  
+  /* Animation for the third dot */
+  .animate-dot3 {
+    animation: expandAndShrink 0.9s infinite 0.6s, delayAnimation  0.9s infinite 0.6s;
+  }
+  

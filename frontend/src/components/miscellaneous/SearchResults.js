@@ -2,33 +2,35 @@ import React from "react";
 import "./drawer.css";
 import { useState } from "react";
 import UserListItem from "./UserListItem";
-const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
-  const [searchValue,setSearchValue]=useState('');
+const Drawer = ({ isOpen, onClose, searchLoader, authtoken }) => {
+  const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
-   if (!isOpen) {
+  if (!isOpen) {
     return null;
-  } 
-  
-  const handleSearch= async (e)=>{
+  }
+
+  const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
-     if(!searchValue){
-      alert("Enter Something")
+    if (!searchValue) {
+      alert("Enter Something");
       setLoading(false);
       return;
-     }
-     const config={
-      headers:{
-        Authorization:`Bearer ${authtoken}`,
-      }
-     }
-    const response = await fetch(`http://localhost:3001/api/user?search=${searchValue}`,config);
+    }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authtoken}`,
+      },
+    };
+    const response = await fetch(
+      `http://localhost:3001/api/user?search=${searchValue}`,
+      config
+    );
     const data = await response.json();
     setSearchResult(data);
     setLoading(false);
-  }
-  
+  };
 
   return (
     <div
@@ -68,9 +70,9 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
         </div>
         <div>
           <div id="animate-pulse" class="animate-pulse">
-            {
-              loading && 
-              <div><div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
+            {loading && (
+              <div>
+                <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
@@ -78,18 +80,17 @@ const Drawer = ({ isOpen, onClose, searchLoader,authtoken }) => {
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
                 <div class="h-12 bg-gray-300 rounded-xl mb-4"></div>
               </div>
-            }
-            
+            )}
           </div>
           <div id="search_result">
-            {!loading && searchResult?.map((user) => (
-            <UserListItem
-              key={user._id}
-                user={user}  
-                authtoken={authtoken}
-            />
-            ))
-            }
+            {!loading &&
+              searchResult?.map((user) => (
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  authtoken={authtoken}
+                />
+              ))}
           </div>
         </div>
       </div>
