@@ -9,8 +9,12 @@ const allMessage = asyncHandler(async (req, res) => {
   try {
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "name profilePic email")
-      .populate("chat");
+      .populate("chat")
+    const isGroupChat = await Chat.findById(req.params.chatId)
+        .populate("isGroupChat")
+    messages.push(isGroupChat.isGroupChat)
     res.json(messages);
+    
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

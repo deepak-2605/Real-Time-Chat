@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
 import ChatBox from "../components/miscellaneous/ChatBox";
-import "../components/miscellaneous/loader.css"
+import "../components/miscellaneous/loader.css";
 import ChatDisplay from "../components/miscellaneous/ChatDisplay";
 // import "../components/miscellaneous/profilePhoto.js"
 import { useState, useEffect } from "react";
@@ -20,6 +20,7 @@ const ChatPage = () => {
   const [chatList, setchatList] = useState([]);
   const [chatmessages, setChatmessages] = useState([]);
   const [chatLoading, setchatLoading] = useState(false);
+  const [group, setGroup] = useState(false);
 
   useEffect(() => {
     const getchatlist = async () => {
@@ -51,6 +52,8 @@ const ChatPage = () => {
   const openChat = async (e) => {
     e.preventDefault();
     const chatId = e.currentTarget.id;
+    const groupTruth = e.currentTarget.isGroup;
+    console.log("hello", groupTruth);
     const config = {
       headers: {
         authorization: `Bearer ${authtoken}`,
@@ -62,8 +65,12 @@ const ChatPage = () => {
     );
     const allmessages = await response.json();
     setIsChatOpen(true);
+    setGroup(allmessages[allmessages.length - 1]);
+    allmessages.pop();
     allmessages.reverse();
+    console.log("hey2", chatId);
     setChatmessages(allmessages);
+    console.log("hey", e.currentTarget);
     console.log(allmessages);
   };
   // Group Chat Functionality
@@ -89,16 +96,21 @@ const ChatPage = () => {
               {/* Group chat Modal starts */}
               <div>
                 <div className="px-2 font-['inter']">
-                  <div className="text-white" onClick={handleClickNewGroup}><button
-                    className="flex items-centre justify-evenly hover:bg-gray-300"
-                    style={{ borderRadius: 15, height: 30, padding: 4 }}
-                  >New Group <i class="fa-solid p-1 fa-plus"></i>
-                  </button>
+                  <div className="text-white" onClick={handleClickNewGroup}>
+                    <button
+                      className="flex items-centre justify-evenly hover:bg-gray-300"
+                      style={{ borderRadius: 15, height: 30, padding: 4 }}
+                    >
+                      New Group <i class="fa-solid p-1 fa-plus"></i>
+                    </button>
                   </div>
                   <div className="absolute">
                     {GroupModal && (
-                      <GroupChatModal authtoken={authtoken} chatList={chatList}
-                        setchatList={setchatList}></GroupChatModal>
+                      <GroupChatModal
+                        authtoken={authtoken}
+                        chatList={chatList}
+                        setchatList={setchatList}
+                      ></GroupChatModal>
                     )}
                   </div>
                 </div>
@@ -112,31 +124,68 @@ const ChatPage = () => {
           >
             {chatLoading &&
               chatList?.map((chat) => (
-                <div
-                  id={chat._id}
-                  onClick={openChat}
-                  className="h-16 bg-white rounded-xl mb-3 flex items-center justify-evenly"
-                >
-                  {
-                    console.log(chat)
-                  }
-                  <div className="w-1/6 px-2 py-2">
-                    <img src={chat.usersList[1].profilePic} className="object-cover" style={{ borderRadius: 24 }}></img>
-                  </div>
-                  <div className="flex-row items-center h-full w-5/6 px-2 font-['inter']">
-                    <div className="p-1 h-1/2 font-Poppins font-bold">
-                      {chat.usersList[1].name}
+                <div>
+                  {!chat.isGroupChat && (
+                    <div
+                      id={chat._id}
+                      isGroup={false}
+                      onClick={openChat}
+                      className="h-16 bg-white rounded-xl mb-3 flex items-center justify-evenly"
+                    >
+                      {console.log("chat", chat)}
+                      <div className="w-1/6 px-2 py-2">
+                        <img
+                          src={chat.usersList[1].profilePic}
+                          className="object-cover"
+                          style={{ borderRadius: 24 }}
+                        ></img>
+                      </div>
+                      <div className="flex-row items-center h-full w-5/6 px-2 font-['inter']">
+                        <div className="p-1 h-1/2 font-Poppins font-bold">
+                          {chat.usersList[1].name}
+                        </div>
+                        <div className="p-1 h-1/2 font-['inter']">
+                          {chat.recentMessage &&
+                            chat.recentMessage.length > 0 &&
+                            chat.recentMessage[0].content}
+                        </div>
+                      </div>
                     </div>
-                    <div className="p-1 h-1/2 font-['inter']">
-                      {chat.recentMessage &&
-                        chat.recentMessage.length > 0 &&
-                        chat.recentMessage[0].content}
+                  )}
+                  {chat.isGroupChat && (
+                    <div
+                      id={chat._id}
+                      isGroup={true}
+                      onClick={openChat}
+                      className="h-16 bg-white rounded-xl mb-3 flex items-center justify-evenly"
+                    >
+                      {console.log("chat", chat)}
+                      <div className="w-1/6 px-2 py-2">
+                        <img
+                          src={chat.usersList[1].profilePic}
+                          className="object-cover"
+                          style={{ borderRadius: 24 }}
+                        ></img>
+                      </div>
+                      <div className="flex-row items-center h-full w-5/6 px-2 font-['inter']">
+                        <div className="p-1 h-1/2 font-Poppins font-bold">
+                          {chat.chatName}
+                        </div>
+                        <div className="p-1 h-1/2 font-['inter']">
+                          {chat.recentMessage &&
+                            chat.recentMessage.length > 0 &&
+                            chat.recentMessage[0].content}
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ))}
             {!chatLoading && (
-              <div className="h-full flex file justify-center" style={{ alignItems: "center" }}>
+              <div
+                className="h-full flex file justify-center"
+                style={{ alignItems: "center" }}
+              >
                 <div class="flex items-center justify-center">
                   <div class="dot animate-dot1"></div>
                   <div class="dot animate-dot2"></div>
@@ -151,17 +200,28 @@ const ChatPage = () => {
             <ChatBox
               chatMessages={chatmessages}
               id={user._id}
+              isGroupChat={group}
               onClose={() => setIsChatOpen(false)}
             />
           )}
-          {!isChatOpen && <div className="h-full" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30 }}>
-            <div className="font-['inter']">Start a Conversation<i class="fa-solid fa-messages"></i></div>
-          </div>}
+          {!isChatOpen && (
+            <div
+              className="h-full"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 30,
+              }}
+            >
+              <div className="font-['inter']">
+                Start a Conversation<i class="fa-solid fa-messages"></i>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
     </div>
-
   );
 };
 

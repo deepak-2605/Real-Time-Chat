@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import UserListItem from './UserListItem';
-import GroupChatUserListItem from './GroupChatUserListItem';
+import React, { useState } from "react";
+import UserListItem from "./UserListItem";
+import GroupChatUserListItem from "./GroupChatUserListItem";
 export default function GroupChatModal({ authtoken, chatList, setChatList }) {
   const [GroupChatName, setGroupChatName] = useState();
   const [SelectedUsers, setSelectedUsers] = useState([]);
+  const [isSelected, setIsselected] = useState(false);
   const [Search, setSearch] = useState("");
   const [SearchResult, setSearchResult] = useState();
   const [loading, setLoading] = useState(true);
@@ -13,13 +14,12 @@ export default function GroupChatModal({ authtoken, chatList, setChatList }) {
     if (!query) {
       return;
     }
-
     try {
       setLoading(true);
       const config = {
         headers: {
           Authorization: `Bearer ${authtoken}`,
-        }
+        },
       };
       const response = await fetch(
         `http://localhost:3001/api/user?search=${query}`,
@@ -33,18 +33,13 @@ export default function GroupChatModal({ authtoken, chatList, setChatList }) {
       console.log("Error occured");
       setLoading(false);
     }
-  }
-  //    console.log(SelectedUsers);
-
-  //    Creating function for handling request to create group chat
-
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!GroupChatName || !SelectedUsers) {
       // Please fill all the fields
       return;
     }
-
     try {
       const response = await fetch("http://localhost:3001/api/chat/group", {
         method: "POST",
@@ -55,40 +50,65 @@ export default function GroupChatModal({ authtoken, chatList, setChatList }) {
         body: JSON.stringify({
           name: GroupChatName,
           users: JSON.stringify(SelectedUsers.map((u) => u._id)),
-        })
+        }),
       });
       const data = await response.json();
       console.log(data);
       setChatList([data, ...chatList]);
+      console.log("a",chatList);
     } catch (error) {
       console.log("Error occured");
     }
-  }
+  };
+
+  const handleRemove = (object) => {
+    setSelectedUsers((SelectedUsers) =>
+      SelectedUsers.filter((obj) => obj !== object)
+    );
+  };
+
   return (
-    <div className='relative -left-40 bg-gray-100 text-center p-2 rounded-xl '>
+    <div className="relative -left-40 bg-gray-100 text-center p-2 rounded-xl ">
       <p>Create Group Chat</p>
       <form onSubmit={handleSubmit}>
-        <div className='p-1'>
+        <div className="p-1">
           <label>
             Chat Name:
             <input
               type="text"
               // value={chatName}
-              placeholder='Chat Name'
+              placeholder="Chat Name"
               onChange={(e) => setGroupChatName(e.target.value)}
             />
           </label>
         </div>
-        <div className='p-1'>
+        <div className="p-1">
           <label>
             Chat Users:
             <input
               type="text"
               // value={chatUsers}
-              placeholder='Search Users'
-              onChange={(e) => (handleSearch(e.target.value))}
+              placeholder="Search Users"
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </label>
+        </div>
+        <div className="selectedTags">
+          {SelectedUsers.length > 0 && (
+            <div className="bg-gray-100 mt-4 p-2">
+              {SelectedUsers.map((object, index) => (
+                <div key={index} className="flex justify-between items-center bg-white" style={{height:20,borderRadius:10, padding:3,margin:3}}>
+                  <span>{object.name}</span>
+                  <button
+                    className="text-red-600 hover:text-red-800"
+                    onClick={() => handleRemove(object)}
+                  >
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         {/* Selected Users */}
         {/* Refer line 43 create display for them and also to delete from here */}
@@ -99,12 +119,16 @@ export default function GroupChatModal({ authtoken, chatList, setChatList }) {
               key={user._id}
               user={user}
               authtoken={authtoken}
+              isSelected={isSelected}
+              setIsselected={setIsselected}
               SelectedUsers={SelectedUsers}
               setSelectedUsers={setSelectedUsers}
             />
           ))}
-        <button type="submit" onClick={(e) => handleSubmit(e)}>Submit</button>
+        <button type="submit" onClick={(e) => handleSubmit(e)}>
+          Submit
+        </button>
       </form>
     </div>
-  )
+  );
 }
