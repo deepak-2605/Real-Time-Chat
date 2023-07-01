@@ -67,8 +67,8 @@ const ChatPage = () => {
     console.log(allmessages);
   };
   // Group Chat Functionality
-   const [GroupModal,setGroupModal]=useState(false);
-   const handleClickNewGroup = () => {
+  const [GroupModal, setGroupModal] = useState(false);
+  const handleClickNewGroup = () => {
     setGroupModal(!GroupModal);
   };
   return (
@@ -86,7 +86,24 @@ const ChatPage = () => {
               <h1 className="text-white font-['inter']">My Chats</h1>
             </div>
             <div>
-          
+              {/* Group chat Modal starts */}
+              <div>
+                <div className="px-2 font-['inter']">
+                  <div className="text-white" onClick={handleClickNewGroup}><button
+                    className="flex items-centre justify-evenly hover:bg-gray-300"
+                    style={{ borderRadius: 15, height: 30, padding: 4 }}
+                  >New Group <i class="fa-solid p-1 fa-plus"></i>
+                  </button>
+                  </div>
+                  <div className="absolute">
+                    {GroupModal && (
+                      <GroupChatModal authtoken={authtoken} chatList={chatList}
+                        setchatList={setchatList}></GroupChatModal>
+                    )}
+                  </div>
+                </div>
+              </div>
+              {/* Group Chat Modal ends */}
             </div>
           </div>
           <div
@@ -100,8 +117,11 @@ const ChatPage = () => {
                   onClick={openChat}
                   className="h-16 bg-white rounded-xl mb-3 flex items-center justify-evenly"
                 >
+                  {
+                    console.log(chat)
+                  }
                   <div className="w-1/6 px-2 py-2">
-                    {/* <img src={profilePic} className="w-12 h-12 object-cover" style={{borderRadius:24}}></img> */}
+                    <img src={chat.usersList[1].profilePic} className="object-cover" style={{ borderRadius: 24 }}></img>
                   </div>
                   <div className="flex-row items-center h-full w-5/6 px-2 font-['inter']">
                     <div className="p-1 h-1/2 font-Poppins font-bold">
@@ -116,7 +136,7 @@ const ChatPage = () => {
                 </div>
               ))}
             {!chatLoading && (
-              <div className="h-full flex file justify-center" style={{alignItems:"center"}}>
+              <div className="h-full flex file justify-center" style={{ alignItems: "center" }}>
                 <div class="flex items-center justify-center">
                   <div class="dot animate-dot1"></div>
                   <div class="dot animate-dot2"></div>
@@ -134,33 +154,14 @@ const ChatPage = () => {
               onClose={() => setIsChatOpen(false)}
             />
           )}
-          {!isChatOpen && <div className="h-full" style={{display:"flex",alignItems:"center", justifyContent:"center", fontSize:30}}>
-            <div className="font-['inter']">Start a Conversation</div>
-            </div>}
+          {!isChatOpen && <div className="h-full" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: 30 }}>
+            <div className="font-['inter']">Start a Conversation<i class="fa-solid fa-messages"></i></div>
+          </div>}
         </div>
       </div>
-      {/* Group chat Modal starts */}
-      <div>
-            <button
-                className="flex items-centre justify-center hover:bg-gray-300"
-                style={{ borderRadius: 15, height: 30, padding: 4 }}
-              >
-                
-                <div className="px-2 font-['inter']">
-                  <p className="text-white" onClick={handleClickNewGroup}>New Group</p>
-                </div>
-                 {GroupModal && (
-        <GroupChatModal authtoken={authtoken} chatList={chatList}
-        setchatList={setchatList}></GroupChatModal>
-      )}
-                <div>
-                  <i class="fa-solid fa-plus"></i>
-                </div>
-              </button>
-      </div>
-      {/* Group Chat Modal ends */}
+
     </div>
-    
+
   );
 };
 
