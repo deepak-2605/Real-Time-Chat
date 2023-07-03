@@ -15,12 +15,16 @@ const ChatPage = () => {
     name: user.name,
     email: user.email,
     profilePic: user.profilePic,
+    id: user._id
   };
+  // console.log("uo", userObject)
   // Accessing all chats of the user
   const [chatList, setchatList] = useState([]);
   const [chatmessages, setChatmessages] = useState([]);
   const [chatLoading, setchatLoading] = useState(false);
   const [group, setGroup] = useState(false);
+  const [chatName, setchatName] = useState("");
+  const [userList, setuserList] = useState();
 
   useEffect(() => {
     const getchatlist = async () => {
@@ -32,7 +36,7 @@ const ChatPage = () => {
       const response = await fetch("http://localhost:3001/api/chat", config);
       const chatlist = await response.json();
       const result = [];
-      console.log(chatlist);
+      // console.log(chatlist);
       chatlist.forEach((element) => {
         result.push(element);
       });
@@ -51,9 +55,10 @@ const ChatPage = () => {
   // This is for opening particular chat
   const openChat = async (e) => {
     e.preventDefault();
+    // console.log(e)
     const chatId = e.currentTarget.id;
     const groupTruth = e.currentTarget.isGroup;
-    console.log("hello", groupTruth);
+    // console.log("hello", groupTruth);
     const config = {
       headers: {
         authorization: `Bearer ${authtoken}`,
@@ -65,13 +70,20 @@ const ChatPage = () => {
     );
     const allmessages = await response.json();
     setIsChatOpen(true);
-    setGroup(allmessages[allmessages.length - 1]);
+    setGroup(allmessages[allmessages.length - 3]);
+    setchatName(allmessages[allmessages.length - 2]);
+    setuserList(allmessages[allmessages.length - 1]);
+    // console.log("cn", allmessages[allmessages.length - 2]);
+    // console.log("ul",  allmessages[allmessages.length - 1]);
+    allmessages.pop();
+    allmessages.pop();
     allmessages.pop();
     allmessages.reverse();
-    console.log("hey2", chatId);
+    // console.log("hey2", chatId);
     setChatmessages(allmessages);
-    console.log("hey", e.currentTarget);
-    console.log(allmessages);
+    // console.log("hey", e.currentTarget._id);
+    // console.log(allmessages);
+    setchatLoading(true);
   };
   // Group Chat Functionality
   const [GroupModal, setGroupModal] = useState(false);
@@ -132,7 +144,8 @@ const ChatPage = () => {
                       onClick={openChat}
                       className="h-16 bg-white rounded-xl mb-3 flex items-center justify-evenly"
                     >
-                      {console.log("chat", chat)}
+                      {/* {console.log("chat", chat)} */}
+                      {/* {chat.userList[0]._id === userObject.id ? setchatName(chat.userList[1].name) : setchatName(chat.userList[0].name)} */}
                       <div className="w-1/6 px-2 py-2">
                         <img
                           src={chat.usersList[1].profilePic}
@@ -159,7 +172,7 @@ const ChatPage = () => {
                       onClick={openChat}
                       className="h-16 bg-white rounded-xl mb-3 flex items-center justify-evenly"
                     >
-                      {console.log("chat", chat)}
+                      {/* {console.log("chat", chat)} */}
                       <div className="w-1/6 px-2 py-2">
                         <img
                           src={chat.usersList[1].profilePic}
@@ -201,6 +214,9 @@ const ChatPage = () => {
               chatMessages={chatmessages}
               id={user._id}
               isGroupChat={group}
+              chatName={chatName}
+              userList={userList}
+              authtoken={authtoken}
               onClose={() => setIsChatOpen(false)}
             />
           )}
