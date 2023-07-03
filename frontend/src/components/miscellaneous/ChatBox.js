@@ -2,19 +2,24 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import GroupAddModal from "./GroupAddModal.js";
 
-const ChatBox = ({ chatMessages, id, isGroupChat }) => {
+const ChatBox = ({ chatMessages, id, isGroupChat, chatName, userList, authtoken}) => {
   const [groupModify, setGroupModify] = useState(false);
+  console.log(chatName);
+  // const [conversationName, setConversationName] = useState(null);
   const modifyHandler = () => {
     setGroupModify(!groupModify);
   };
-  const closehandler=()=>{
+  const closehandler = () => {
     setGroupModify(false);
   }
   return (
     <div className="h-full">
-      {console.log(chatMessages)}
+      {/* {console.log(chatMessages)} */}
       {!isGroupChat && (
         <div className="mx-3 h-full">
+          {console.log(userList)}
+          {userList[0]._id === id ? <div className="bg-green-600 text-white rounded-xl flex justify-start p-3 text-lg "> <img className="rounded-3xl mx-2" width="40rem" src={userList[1].profilePic} alt="" /> {userList[1].name}</div> : <div className="bg-green-600 text-white rounded-xl flex justify-start p-3 text-lg "> <img src={userList[0].profilePic} alt="" /> {userList[0].name}</div>}
+
           <div className="h-full">
             <div className="flex flex-col justify-end w-full h-full p-4">
               {/* Chat Messages */}
@@ -31,11 +36,11 @@ const ChatBox = ({ chatMessages, id, isGroupChat }) => {
                         })}
                       >
                         <span className="font-bold font-['inter']">
-                          {message.sender.name}:
+                          {message.sender._id === id ? "You" : message.sender.name}:
                         </span>{" "}
                         {message.content}
                         <span className="text-xs text-gray-500 ml-1">
-                          {/* {message.timestamp} */}
+                          {message.createdAt.slice(11, 19)}
                         </span>
                       </div>
                     )
@@ -67,7 +72,8 @@ const ChatBox = ({ chatMessages, id, isGroupChat }) => {
       {isGroupChat && (
         <div className="h-full">
           <div className="mx-3 h-full">
-            <div className="h-full">
+            <div className="bg-green-600 text-white rounded-xl flex justify-between p-3 text-lg">
+              {chatName}
               <div
                 className="h-1/12 flex"
                 style={{ alignItems: "center", justifyContent: "end" }}
@@ -76,10 +82,12 @@ const ChatBox = ({ chatMessages, id, isGroupChat }) => {
                   <i className="fa-solid fa-eye fa-xl p-5"></i>
                 </button>
               </div>
+            </div>
+            <div className="h-full">
               <div className="flex flex-col justify-end w-full h-full">
                 {/* Chat Messages */}
                 <div>
-                  <GroupAddModal isOpen={groupModify} onClose={closehandler}/>
+                  <GroupAddModal chatName={chatName} userList ={userList} authtoken={authtoken} isOpen={groupModify} onClose={closehandler} />
                 </div>
                 <div className="flex flex-col-reverse w-full h-9/12">
                   {chatMessages?.map(
@@ -94,7 +102,7 @@ const ChatBox = ({ chatMessages, id, isGroupChat }) => {
                           })}
                         >
                           <span className="font-bold font-['inter']">
-                            {message.sender.name}:
+                            {message.sender._id === id ? "You" : message.sender.name}:
                           </span>{" "}
                           {message.content}
                           <span className="text-xs text-gray-500 ml-1">

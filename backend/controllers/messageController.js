@@ -11,10 +11,13 @@ const allMessage = asyncHandler(async (req, res) => {
       .populate("sender", "name profilePic email")
       .populate("chat")
     const isGroupChat = await Chat.findById(req.params.chatId)
-        .populate("isGroupChat")
-    messages.push(isGroupChat.isGroupChat)
+      .populate("isGroupChat")
+      .populate("chatName")
+      .populate("usersList");
+    messages.push(isGroupChat.isGroupChat);
+    messages.push(isGroupChat.chatName);
+    messages.push(isGroupChat.usersList);
     res.json(messages);
-    
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

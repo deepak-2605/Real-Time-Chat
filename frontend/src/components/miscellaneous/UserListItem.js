@@ -16,7 +16,7 @@ const UserListItem = ({ user , authtoken}) => {
         }); 
     }
     return (
-        <div onClick={handleChatCreate} className="flex items-center my-2 px-2 rounded-xl bg-slate-900 cursor-pointer">
+        <div onClick={handleChatCreate} className="flex items-center my-2 px-2 rounded-xl cursor-pointer">
             <img className="rounded-xl" width='50px' src={user.profilePic} alt="" />
             <div className="m-2">
                 <div className="text-lg">{user.name}</div>
