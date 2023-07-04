@@ -2,7 +2,7 @@ import React from "react";
 // import profile from 'Real-Time-Chat/frontend/src/components/miscellaneous/profilePhoto.png'
 
 const ProfileModal = ({ User, isOpen, onClose }) => {
-  const { name, profilePic, email } = User;
+  const { name, profilePic, email,about } = User;
   return (
     <div>
       {isOpen && (
@@ -20,6 +20,7 @@ const ProfileModal = ({ User, isOpen, onClose }) => {
               />
             </div>
             <p className="text-center">Email Id : {email}</p>
+             <p className="text-center">About: {about}</p>
             <button
               className="mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
               onClick={onClose}

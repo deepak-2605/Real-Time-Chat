@@ -91,4 +91,22 @@ const getAllUsers=asyncHandler(async(req,res)=>{
 
 })
 
-module.exports={registerUser, authenticateUser,getAllUsers};
+// updating about
+const updateAbout = async (req, res) => {
+    try {
+        const { about } = req.body;
+        const userId = req.user._id; // Access the authenticated user's ID from the request
+
+        // Find the user by ID and update the "about" field
+        const user = await User.findByIdAndUpdate(userId, { about }, { new: true });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'About updated successfully', user });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+module.exports={registerUser, authenticateUser,getAllUsers,updateAbout};
