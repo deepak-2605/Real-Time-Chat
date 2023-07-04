@@ -9,7 +9,6 @@ const chatRoutes=require('./routes/chatRoutes');
 const messageRoutes=require('./routes/messageRoutes');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })  
 const app = express();
-
 dotenv.config();
 connecttoDB();
 app.use(cors());
@@ -40,8 +39,9 @@ const server = app.listen(PORT, console.log(`server started on ${PORT}`));
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3001",
-    // credentials: true,
+    origin: "http://localhost:3000",
+    credentials: true,
+    origin: true
   },
 });
 
@@ -50,6 +50,7 @@ io.on("connection", (socket) => {
   socket.on("setup", (userData) => {
     socket.join(userData._id);
     socket.emit("connected");
+    console.log(userData._id);
   });
 
   socket.on("join chat", (room) => {
@@ -62,9 +63,9 @@ io.on("connection", (socket) => {
   socket.on("new message", (newMessageRecieved) => {
     var chat = newMessageRecieved.chat;
 
-    if (!chat.users) return console.log("chat.users not defined");
+    if (!chat.usersList) return console.log("chat.users not defined");
 
-    chat.users.forEach((user) => {
+    chat.usersList.forEach((user) => {
       if (user._id == newMessageRecieved.sender._id) return;
 
       socket.in(user._id).emit("message recieved", newMessageRecieved);
