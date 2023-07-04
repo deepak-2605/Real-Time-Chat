@@ -113,7 +113,7 @@ const ChatBox = ({ chatMessages, id,user, chatId,isGroupChat, chatName, userList
           <div className="h-full">
             <div className="flex flex-col justify-end w-full h-full p-4">
               {/* Chat Messages */}
-              <div className="flex flex-col-reverse w-full h-5/6">
+              <div className="flex flex-col-reverse w-full h-4/6 overflow-auto " style={{boxSizing:"border-box"}}>
                 {messages?.map(
                   (message) => (
                     (

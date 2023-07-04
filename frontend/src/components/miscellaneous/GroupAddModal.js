@@ -54,7 +54,9 @@ const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
                   {chatName}
                 </h2>
                 {/* </div> */}
-                <button onClick={onClose} className="self-start"><i class="fa-solid fa-xmark" /></button>
+                <button onClick={onClose} className="self-start">
+                  <i class="fa-solid fa-xmark" />
+                </button>
               </div>
               {userList?.map((user) => (
                 <div className="bg-slate-500 m-2 text-white rounded-lg flex justify-between px-2 w-80">
@@ -66,9 +68,14 @@ const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
                   <i class="fa-solid fa-xmark" />
                 </div>
               ))}
-              <button onClick={() => setsearchBox(true)} className="bg-blue-400 hover:bg-blue-700 text-white p-2 m-4 rounded-lg">Add New Member</button>
-              {
-                searchBox && <div className="">
+              <button
+                onClick={() => setsearchBox(true)}
+                className="bg-blue-400 hover:bg-blue-700 text-white p-2 m-4 rounded-lg"
+              >
+                Add New Member
+              </button>
+              {searchBox && (
+                <div className="">
                   <div className="flex">
                     <input
                       className="m-2 p-2 rounded-lg text-center"
@@ -76,14 +83,36 @@ const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
                       placeholder="Search Users"
                       onChange={(e) => handleSearch(e.target.value)}
                     />
-                    <button className="bg-green-400 hover:bg-green-700 text-white p-2 m-2 rounded-lg" type="submit"> Add</button>
-                    <button onClick={() => setsearchBox(false)} className="bg-gray-400 hover:bg-gray-700 text-white p-2 m-2 rounded-lg" type="submit"> Back</button>
+                    <button
+                      className="bg-green-400 hover:bg-green-700 text-white p-2 m-2 rounded-lg"
+                      type="submit"
+                    >
+                      {" "}
+                      Add
+                    </button>
+                    <button
+                      onClick={() => setsearchBox(false)}
+                      className="bg-gray-400 hover:bg-gray-700 text-white p-2 m-2 rounded-lg"
+                      type="submit"
+                    >
+                      {" "}
+                      Back
+                    </button>
                   </div>
                   <div className="selectedTags">
                     {SelectedUsers.length > 0 && (
                       <div className="bg-gray-100 mt-4 p-2">
                         {SelectedUsers.map((object, index) => (
-                          <div key={index} className="flex justify-between items-center bg-white" style={{ height: 20, borderRadius: 10, padding: 3, margin: 3 }}>
+                          <div
+                            key={index}
+                            className="flex justify-between items-center bg-white"
+                            style={{
+                              height: 20,
+                              borderRadius: 10,
+                              padding: 3,
+                              margin: 3,
+                            }}
+                          >
                             <span>{object.name}</span>
                             <button
                               className="text-red-600 hover:text-red-800"
@@ -96,21 +125,23 @@ const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
                       </div>
                     )}
                   </div>
-                  {!loading && <div className="flex flex-wrap justify-between">
-                    {SearchResult?.slice(0, 6).map((user) => (
-                      <GroupChatUserListItem
-                        key={user._id}
-                        user={user}
-                        authtoken={authtoken}
-                        isSelected={isSelected}
-                        setIsselected={setIsselected}
-                        SelectedUsers={SelectedUsers}
-                        setSelectedUsers={setSelectedUsers}
-                      />
-                    ))}
-                  </div>}
+                  {!loading && (
+                    <div className="flex flex-wrap justify-between">
+                      {SearchResult?.slice(0, 6).map((user) => (
+                        <GroupChatUserListItem
+                          key={user._id}
+                          user={user}
+                          authtoken={authtoken}
+                          isSelected={isSelected}
+                          setIsselected={setIsselected}
+                          SelectedUsers={SelectedUsers}
+                          setSelectedUsers={setSelectedUsers}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
-              }
+              )}
               {/* <div className="flex items-center justify-center mb-2">
                 <img
                   //src={profilePic}
