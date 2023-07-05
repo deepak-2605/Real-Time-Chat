@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
-function Signup({handleregister}) {
+function Signup({ handleregister }) {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const [name, setName] = useState();
@@ -27,31 +27,29 @@ function Signup({handleregister}) {
       return;
     }
     const response = await fetch("http://localhost:3001/api/user", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-      body: JSON.stringify(
-        {
-          name,
-          email,
-          password,
-          profilePic
-        })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        profilePic,
+      }),
     });
-    const json = await response.json()
+    const json = await response.json();
     console.log(json);
-    if (json.success){
-      localStorage.setItem('token', json.authtoken);
+    if (json.success) {
+      localStorage.setItem("token", json.authtoken);
       alert("Registration successful");
       handleregister("Registration successfull, login to continue");
-      navigate('/');
+      navigate("/");
       setloading(false);
-    }
-    else {
+    } else {
       alert("Invalid credentials");
       setloading(false);
-    }     
+    }
   };
 
   function handleClick() {
@@ -171,7 +169,7 @@ function Signup({handleregister}) {
                 </div>
               </div>
               <div>
-                <h3>Upload image</h3>
+                <p className=" text-xl font-large leading-6 text-black font-Poppins">Upload Image</p>
                 {selectedImage && (
                   <div>
                     <img
@@ -185,7 +183,6 @@ function Signup({handleregister}) {
                     </button>
                   </div>
                 )}
-                <br />
                 <input
                   type="file"
                   name="myImage"

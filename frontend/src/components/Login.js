@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
-
 function Login(prop) {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
@@ -16,25 +15,25 @@ function Login(prop) {
       return;
     }
     const response = await fetch("http://localhost:3001/api/user/login", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email,password})
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
     });
-    const json = await response.json()
+    const json = await response.json();
     if (json.success) {
-      localStorage.setItem('token', json.authtoken); 
-      navigate('/chat', { state: { user: json.user, authtoken: json.authtoken } });
+      localStorage.setItem("token", json.authtoken);
+      navigate("/chat", {
+        state: { user: json.user, authtoken: json.authtoken },
+      });
       setLoading(false);
+    } else {
+      setLoading(false);
+      alert("Invalid credentials");
     }
-    else {
-        setLoading(false);
-        alert("Invalid credentials");
-    }
-    
   };
-  
+
   function handleClick() {
     navigate("/signup");
   }
@@ -75,14 +74,6 @@ function Login(prop) {
                   >
                     Password
                   </label>
-                  <div className="text-sm">
-                    <a
-                      href="#"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
                 </div>
                 <div className="mt-2">
                   <input

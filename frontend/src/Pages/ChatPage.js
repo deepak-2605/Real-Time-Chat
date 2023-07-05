@@ -3,6 +3,8 @@ import SideDrawer from "../components/miscellaneous/SideDrawer";
 import ChatBox from "../components/miscellaneous/ChatBox";
 import { MenuList, MenuItem } from "@material-tailwind/react";
 import "../components/miscellaneous/loader.css";
+import Loader from "../components/miscellaneous/Loader.js"
+import "../components/miscellaneous/loader.css"
 import ProfileModal from "../components/miscellaneous/ProfileModal";
 import { useNavigate } from "react-router";
 
@@ -22,7 +24,7 @@ const ChatPage = () => {
     email: user.email,
     profilePic: user.profilePic,
     id: user._id,
-    about:user.about,
+    about: user.about,
   };
   const [chatList, setchatList] = useState([]);
   const [chatmessages, setChatmessages] = useState([]);
@@ -31,6 +33,15 @@ const ChatPage = () => {
   const [chatName, setchatName] = useState("");
   const [userList, setuserList] = useState();
   const [notification, setNotification] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const handleClick = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const fetchedData = 'Loaded Data';
+      setIsLoading(false);
+    }, 2000);
+  };
 
   const handlenotification = (notifi) => {
     setNotification(notifi);
@@ -78,6 +89,7 @@ const ChatPage = () => {
   const openChat = async (e) => {
     e.preventDefault();
     const chatid = e.currentTarget.id;
+    setIsLoading(true)
     await setChatId(chatid);
     const config = {
       headers: {
@@ -90,6 +102,7 @@ const ChatPage = () => {
     );
     const allmessages = await response.json();
     setIsChatOpen(true);
+    setIsLoading(false);
     setGroup(allmessages[allmessages.length - 3]);
     setchatName(allmessages[allmessages.length - 2]);
     setuserList(allmessages[allmessages.length - 1]);
@@ -105,22 +118,31 @@ const ChatPage = () => {
   const handleClickNewGroup = () => {
     setGroupModal(!GroupModal);
   };
+  // const load =(e)={
+
+  // }
+  // const handleButtonClick = (e) => {
+  //   openChat(e);
+  //   load(e);
+  // };
   return (
-    <div style={{ height: 700 }}>
+    <div style={{ height: 700}}>
       <SideDrawer
         User={userObject}
         authtoken={authtoken}
         chatList={chatList}
         setchatList={setchatList}
       ></SideDrawer>
-      <div className="flex">
-        <div className="display w-3/12 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
-          <div className="flex mb-2 " style={{ alignItems: "center" }}>
-            <div className="pr-32">
+      <div className="flex flex-col sm:flex-row w-full">
+        <div className="display w-11/12 mr-2 sm:w-3/12 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
+          <div
+            className="flex flex-col md:flex-row  mb-2"
+            style={{ alignItems: "center", justifyContent: "space-around" }}
+          >
+            <div className="">
               <h1 className="text-white font-['inter']">My Chats</h1>
             </div>
             <div>
-              {/* Group chat Modal starts */}
               <div>
                 <div className="px-2 font-['inter']">
                   <div className="text-white" onClick={handleClickNewGroup}>
@@ -155,7 +177,6 @@ const ChatPage = () => {
                 <div>
                   {!chat.isGroupChat && (
                     <div
-                      
                       id={chat._id}
                       isGroup={false}
                       onClick={openChat}
@@ -180,7 +201,7 @@ const ChatPage = () => {
                             ? chat.usersList[0].name
                             : chat.usersList[1].name}
                         </div>
-                        <div className="p-1 h-1/2 font-['inter']">
+                        <div className="p-1 h-1/2 font-['inter']" style={{overflow:"hidden",textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
                           {chat.recentMessage &&
                             chat.recentMessage.length > 0 &&
                             chat.recentMessage[0].content}
@@ -231,7 +252,7 @@ const ChatPage = () => {
             )}
           </div>
         </div>
-        <div className="w-9/12 bg-white rounded-2xl mx-4 mt-2">
+        <div className="w-11/12 sm:w-9/12 bg-white rounded-2xl mx-4 mt-2">
           {isChatOpen && (
             <ChatBox
               chatMessages={chatmessages}
@@ -247,7 +268,7 @@ const ChatPage = () => {
               onClose={() => setIsChatOpen(false)}
             />
           )}
-          {!isChatOpen && (
+          {!isChatOpen && !isLoading && (
             <div
               className="h-full"
               style={{
@@ -260,6 +281,11 @@ const ChatPage = () => {
               <div className="font-['inter']">
                 Start a Conversation<i class="fa-solid fa-messages"></i>
               </div>
+            </div>
+          )}
+          {!isChatOpen && isLoading && (
+            <div className="h-full flex items-center justify-center" >
+              <Loader />
             </div>
           )}
         </div>
