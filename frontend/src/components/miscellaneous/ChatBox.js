@@ -13,10 +13,13 @@ const ChatBox = ({
   user,
   chatId,
   isGroupChat,
+  isChatOpen,
+  setIsChatOpen,
   chatName,
   userList,
   authtoken,
   chatList,
+
 }) => {
   const [groupModify, setGroupModify] = useState(false);
   const [messages, setMessages] = useState(chatMessages);
@@ -108,11 +111,18 @@ const ChatBox = ({
       }
     }, timerLength);
   };
-
+  const handleback = () => {
+    setIsChatOpen(false);
+  }
   return (
     <div>
+      <div><button onClick={handleback} className="cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-6 border hover:border-transparent rounded mb-2 ml-2 mt-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+      </svg>
+      </button></div>
       {!isGroupChat && (
         <div className="mx-3 h-screen">
+
           {userList[0]._id === id ? (
             <div className="bg-green-600 text-white rounded-xl m-1 flex justify-start p-3 text-lg ">
               {" "}
@@ -173,7 +183,10 @@ const ChatBox = ({
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-r-lg px-4 py-2 ml-2"
                   onClick={sendMessage}
                 >
-                  Send
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+
                 </button>
               </form>
             </div>
@@ -249,7 +262,10 @@ const ChatBox = ({
                     className="bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm sm:text-base rounded-r-lg sm:px-4 sm:py-2 ml-1 sm:ml-2"
                     onClick={sendMessage}
                   >
-                    Send
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
                   </button>
                 </form>
               </div>

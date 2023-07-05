@@ -34,7 +34,7 @@ const ChatPage = () => {
   const [userList, setuserList] = useState();
   const [notification, setNotification] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const handleClick = () => {
     setIsLoading(true);
     setTimeout(() => {
@@ -126,15 +126,15 @@ const ChatPage = () => {
   //   load(e);
   // };
   return (
-    <div style={{ height: 700}}>
-      <SideDrawer
+    <div style={{ height: 700 }}>
+      {(!isChatOpen || window.innerWidth >= 1024) && (<SideDrawer
         User={userObject}
         authtoken={authtoken}
         chatList={chatList}
         setchatList={setchatList}
-      ></SideDrawer>
+      ></SideDrawer>)}
       <div className="flex flex-col sm:flex-row w-full">
-        <div className="display w-11/12 mr-2 sm:w-3/12 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
+        {(!isChatOpen || window.innerWidth >= 1024) && (<div className="display w-11/12 mr-2 sm:w-3/12 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
           <div
             className="flex flex-col md:flex-row  mb-2"
             style={{ alignItems: "center", justifyContent: "space-around" }}
@@ -201,7 +201,7 @@ const ChatPage = () => {
                             ? chat.usersList[0].name
                             : chat.usersList[1].name}
                         </div>
-                        <div className="p-1 h-1/2 font-['inter']" style={{overflow:"hidden",textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
+                        <div className="p-1 h-1/2 font-['inter']" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {chat.recentMessage &&
                             chat.recentMessage.length > 0 &&
                             chat.recentMessage[0].content}
@@ -251,7 +251,7 @@ const ChatPage = () => {
               </div>
             )}
           </div>
-        </div>
+        </div>)}
         <div className="w-11/12 sm:w-9/12 bg-white rounded-2xl mx-4 mt-2">
           {isChatOpen && (
             <ChatBox
@@ -262,13 +262,15 @@ const ChatPage = () => {
               chatId={chatId}
               handlenotification={handlenotification}
               isGroupChat={group}
+              isChatOpen={isChatOpen}
+              setIsChatOpen={setIsChatOpen}
               chatName={chatName}
               userList={userList}
               authtoken={authtoken}
               onClose={() => setIsChatOpen(false)}
             />
           )}
-          {!isChatOpen && !isLoading && (
+          {!isChatOpen && !isLoading && window.innerWidth >= 1025 && (
             <div
               className="h-full"
               style={{
@@ -291,6 +293,7 @@ const ChatPage = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
