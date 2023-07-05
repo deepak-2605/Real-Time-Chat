@@ -2,7 +2,8 @@ import React from "react";
 import "./drawer.css";
 import { useState } from "react";
 import UserListItem from "./UserListItem";
-const Drawer = ({ isOpen, onClose, searchLoader, authtoken }) => {
+ import { ToastContainer, toast } from 'react-toastify';
+const Drawer = ({ isOpen, onClose, searchLoader, authtoken,chatList,setChatList,setchatLoading,chatLoading }) => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
@@ -14,7 +15,7 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken }) => {
     e.preventDefault();
     setLoading(true);
     if (!searchValue) {
-      alert("Enter Something");
+      toast.error("Enter something");
       setLoading(false);
       return;
     }
@@ -33,6 +34,8 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken }) => {
   };
 
   return (
+    <>
+    <ToastContainer></ToastContainer>
     <div
       className="fixed left-0 top-0 h-full bg-gray-600 text-white w-11/12 sm:w-96 p-4 "
       style={{ borderRadius: 10 }}
@@ -89,12 +92,17 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken }) => {
                   key={user._id}
                   user={user}
                   authtoken={authtoken}
+                  chatList={chatList}
+                  setChatList={setChatList}
+                  setchatLoading={setchatLoading}
+                  chatLoading={chatLoading}
                 />
               ))}
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

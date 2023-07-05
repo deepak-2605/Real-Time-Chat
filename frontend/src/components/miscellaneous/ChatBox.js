@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import { ChatState } from "../context/ChatProvider.js";
 import GroupAddModal from "./GroupAddModal.js";
 import io from "socket.io-client";
 const ENDPOINT = "http://localhost:3001";

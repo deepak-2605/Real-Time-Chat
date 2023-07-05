@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserListItem from "./UserListItem";
 import GroupChatUserListItem from "./GroupChatUserListItem";
+ import { ToastContainer, toast } from 'react-toastify';
 export default function GroupChatModal({ authtoken, chatList, setChatList,chatId }) {
   const [GroupChatName, setGroupChatName] = useState();
   const [SelectedUsers, setSelectedUsers] = useState([]);
@@ -30,7 +31,7 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
       setSearchResult(data);
       setLoading(false);
     } catch (error) {
-      console.log("Error occured");
+      toast.error("Error occured!");
       setLoading(false);
     }
   };
@@ -38,6 +39,7 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
     e.preventDefault();
     if (!GroupChatName || !SelectedUsers) {
       // Please fill all the fields
+      toast.error("Please fill all the fields");
       return;
     }
     try {
@@ -57,6 +59,7 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
       setChatList([data, ...chatList]);
       console.log("a",chatList);
     } catch (error) {
+      toast.error("Error occured");
       console.log("Error occured");
     }
   };
@@ -69,6 +72,8 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
   };
 
   return (
+    <>
+    <ToastContainer></ToastContainer>
     <div className="relative -left-40 bg-gray-100 text-center p-2 rounded-xl ">
       <p>Create Group Chat</p>
       <form onSubmit={handleSubmit}>
@@ -132,5 +137,6 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
         </button>
       </form>
     </div>
+    </>
   );
 }

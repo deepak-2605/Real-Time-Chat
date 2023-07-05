@@ -3,7 +3,7 @@ import Drawer from "./SearchResults.js";
 import ProfileModal from "./ProfileModal";
 import { useNavigate } from "react-router";
 
-const SideDrawer = ({ User }) => {
+const SideDrawer = ({ User ,chatList,setchatList,setchatLoading, chatLoading}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -92,6 +92,10 @@ const SideDrawer = ({ User }) => {
             onClose={toggleDrawer}
             searchLoader={loadSearch}
             authtoken={token}
+            chatlist={chatList}
+            setchatList={setchatList}
+            setchatLoading={setchatLoading}
+            chatLoading={chatLoading}
           />
         </div>
         <div className="w-8/12 sm:w-48">

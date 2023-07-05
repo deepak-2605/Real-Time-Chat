@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-
+ import { ToastContainer, toast } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 function Signup({ handleregister }) {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
@@ -19,11 +20,12 @@ function Signup({ handleregister }) {
     e.preventDefault();
     setloading(true);
     if (!name || !email || !password || !confirmPassword) {
-      alert("fill all the required fields");
+      toast.error("Fill all the required fields");
       return;
     }
     if (password !== confirmPassword) {
-      alert("password do not match");
+      toast.error("password and confirmPassword do not match")
+
       return;
     }
     const response = await fetch("http://localhost:3001/api/user", {
@@ -42,12 +44,12 @@ function Signup({ handleregister }) {
     console.log(json);
     if (json.success) {
       localStorage.setItem("token", json.authtoken);
-      alert("Registration successful");
+      toast.success("Registration successful");
       handleregister("Registration successfull, login to continue");
       navigate("/");
       setloading(false);
     } else {
-      alert("Invalid credentials");
+      toast.error("User already exists in the database");
       setloading(false);
     }
   };
@@ -59,7 +61,7 @@ function Signup({ handleregister }) {
   const postDetails = (pics) => {
     setPicLoading(true);
     if (pics === undefined) {
-      alert("Try uploading again");
+      toast.error("Try uploading again");
       setPicLoading(false);
       return;
     }
@@ -84,15 +86,18 @@ function Signup({ handleregister }) {
           console.log(err);
           setPicLoading(false);
         });
+        toast.success("Profile Pic uploaded successfully");
     } else {
-      alert("use only jpeg and png format");
+      toast.error("use only jpeg and png format");
       setPicLoading(false);
       return;
     }
   };
 
   return (
-    <div className="font-bold text-4xl">
+    <>
+     <ToastContainer></ToastContainer>
+    <div className="font-bold text-4xl"> 
       <div className="flex min-h-full flex-col justify-center align-middle px-6 py-12 lg:px-8">
         <div className="bg-gray-300 bg-opacity-70 py-6 mt-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -213,6 +218,7 @@ function Signup({ handleregister }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

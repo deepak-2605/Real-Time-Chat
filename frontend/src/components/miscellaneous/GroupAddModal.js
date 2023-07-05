@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import UserListItem from "./UserListItem";
 import GroupChatUserListItem from "./GroupChatUserListItem";
-
+ import { ToastContainer, toast } from 'react-toastify';
 const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authtoken,chatId,chatList,user }) => {
   const [searchBox, setsearchBox] = useState(false);
   const [GroupChatName, setGroupChatName] = useState();
@@ -31,7 +31,7 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
       setSearchResult(data);
       setLoading(false);
     } catch (error) {
-      console.log("Error occured");
+      toast.error("Error occured!");
       setLoading(false);
     }
   };
@@ -45,6 +45,8 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
   // user1 is the user which need to be removed
  
   return (
+    <>
+    <ToastContainer></ToastContainer>
     <div>
       {isOpen && (
         <div>
@@ -164,6 +166,7 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
         </div>
       )}
     </div>
+    </>
   );
 };
 

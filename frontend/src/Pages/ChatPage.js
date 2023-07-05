@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 
 import { useState, useEffect } from "react";
 import GroupChatModal from "../components/miscellaneous/GroupChatModal";
+import { set } from "mongoose";
 const ChatPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -132,6 +133,8 @@ const ChatPage = () => {
         authtoken={authtoken}
         chatList={chatList}
         setchatList={setchatList}
+        setchatLoading={setchatLoading}
+        chatLoading={chatLoading}
       ></SideDrawer>)}
       <div className="flex flex-col sm:flex-row w-full">
         {(!isChatOpen || window.innerWidth >= 1024) && (<div className="display w-11/12 mr-2 sm:w-3/12 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">

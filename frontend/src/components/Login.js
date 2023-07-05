@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-
+ import { ToastContainer, toast } from 'react-toastify';
+ import 'react-toastify/dist/ReactToastify.css';
 function Login(prop) {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
@@ -10,7 +11,7 @@ function Login(prop) {
     e.preventDefault();
     setLoading(true);
     if (!email || !password) {
-      alert("Enter all required fields");
+      toast.error("Enter all required fields");
       setLoading(false);
       return;
     }
@@ -30,7 +31,7 @@ function Login(prop) {
       setLoading(false);
     } else {
       setLoading(false);
-      alert("Invalid credentials");
+        toast.error("Invalid credentials");
     }
   };
 
@@ -39,6 +40,7 @@ function Login(prop) {
   }
   return (
     <div NameName="font-bold text-4xl">
+      <ToastContainer></ToastContainer>
       <div className="flex min-h-full flex-col justify-center align-middle px-6 py-12 lg:px-8">
         <div className="bg-gray-300 bg-opacity-70 py-8 mt-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
