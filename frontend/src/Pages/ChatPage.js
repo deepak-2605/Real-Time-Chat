@@ -74,7 +74,7 @@ const ChatPage = () => {
       chatlist.forEach((element) => {
         result.push(element);
       });
-      if (result.length !== chatList.length) {
+      if (result && result.length !== chatList.length) {
         setchatList(result);
       } else {
         setchatLoading(true);
@@ -82,13 +82,11 @@ const ChatPage = () => {
       return;
     };
     getchatlist();
-    return () => {
-      return;
-    };
-  }, [chatList]);
+  });
   // This is for opening particular chat
   const openChat = async (e) => {
     e.preventDefault();
+    setIsChatOpen(false);
     const chatid = e.currentTarget.id;
     setIsLoading(true)
     await setChatId(chatid);
@@ -102,7 +100,6 @@ const ChatPage = () => {
       config
     );
     const allmessages = await response.json();
-    setIsChatOpen(true);
     setIsLoading(false);
     setGroup(allmessages[allmessages.length - 3]);
     setchatName(allmessages[allmessages.length - 2]);
@@ -113,19 +110,13 @@ const ChatPage = () => {
     allmessages.reverse();
     setChatmessages(allmessages);
     setchatLoading(true);
+    setIsChatOpen(true);
   };
   // Group Chat Functionality
   const [GroupModal, setGroupModal] = useState(false);
   const handleClickNewGroup = () => {
     setGroupModal(!GroupModal);
   };
-  // const load =(e)={
-
-  // }
-  // const handleButtonClick = (e) => {
-  //   openChat(e);
-  //   load(e);
-  // };
   return (
     <div style={{ height: 700 }}>
       {(!isChatOpen || window.innerWidth >= 1024) && (<SideDrawer
@@ -190,9 +181,9 @@ const ChatPage = () => {
                       <div className="w-1/6 px-2 py-2">
                         <img
                           src={
-                            chat.usersList[1]._id === user._id
-                              ? chat.usersList[0].profilePic
-                              : chat.usersList[1].profilePic
+                            (chat.usersList)[1]._id === user._id
+                              ? (chat.usersList)[0].profilePic
+                              : (chat.usersList)[1].profilePic
                           }
                           className="object-cover"
                           style={{ borderRadius: 24 }}
@@ -200,9 +191,9 @@ const ChatPage = () => {
                       </div>
                       <div className="flex-row items-center h-full w-5/6 px-2 font-['inter']">
                         <div className="p-1 h-1/2 font-Poppins font-bold">
-                          {chat.usersList[1]._id === user._id
-                            ? chat.usersList[0].name
-                            : chat.usersList[1].name}
+                          {(chat.usersList[1])._id === user._id
+                            ? (chat.usersList[0]).name
+                            : (chat.usersList[1]).name}
                         </div>
                         <div className="p-1 h-1/2 font-['inter']" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {chat.recentMessage &&
@@ -222,7 +213,7 @@ const ChatPage = () => {
                       {/* {console.log("chat", chat)} */}
                       <div className="w-1/6 px-2 py-2">
                         <img
-                          src={chat.usersList[1].profilePic}
+                          // src={chat.usersList[1].profilePic}
                           className="object-cover"
                           style={{ borderRadius: 24 }}
                         ></img>

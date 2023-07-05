@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import classNames from "classnames";
 import GroupAddModal from "./GroupAddModal.js";
 import io from "socket.io-client";
@@ -66,11 +67,10 @@ const ChatBox = ({
       const data = await response.json();
       if (data.success) {
         socket.emit("new message", data.message);
-        setMessages([...messages, data.message]);
+        setMessages([data.message,...messages]);
         setNewMessage("");
-        // messages.sort({ createdAt: -1 });
       } else {
-        console.log("error occured");
+        toast.error("error sending message")
       }
     }
   };
@@ -86,7 +86,7 @@ const ChatBox = ({
           console.log(notification);
         }
       } else {
-        setMessages([...messages, newMessageRecieved]);
+        setMessages([newMessageRecieved,...messages]);
       }
     });
   });
@@ -97,7 +97,7 @@ const ChatBox = ({
 
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", chatId);
+      socket.emit("typing", id,userList);
     }
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
@@ -139,10 +139,6 @@ const ChatBox = ({
               <img src={userList[0].profilePic} alt="" /> {userList[0].name}
             </div>
           )}
-
-          {/* <div className=""> */}
-          {/* <div className="flex flex-col justify-end w-full  p-4"> */}
-          {/* Chat Messages */}
           <div
             className="flex flex-col-reverse w-full overflow-auto "
             style={{ boxSizing: "border-box", height: "71.5vh" }}
@@ -168,7 +164,7 @@ const ChatBox = ({
           <div className="w-full h-1/6">
             <div className="bg-gray-200 p-4 w-full">
               {/* Message Box */}
-              {istyping ? <div>loading...</div> : <></>}
+              {istyping ? <div>typing...</div> : <></>}
               <form className="flex">
                 <input
                   type="text"
@@ -191,8 +187,6 @@ const ChatBox = ({
             </div>
           </div>
         </div>
-        // </div>
-        // </div>
       )}
       {isGroupChat && (
         <div className="">
@@ -208,9 +202,6 @@ const ChatBox = ({
                 </button>
               </div>
             </div>
-            {/* <div className="h-full"> */}
-            {/* <div className="flex flex-col justify-end w-full h-full"> */}
-            {/* Chat Messages */}
             <div>
               <GroupAddModal
                 chatName={chatName}
@@ -227,7 +218,7 @@ const ChatBox = ({
               className="flex flex-col-reverse w-full overflow-auto "
               style={{ boxSizing: "border-box", height: "71.5vh" }}
             >
-              {chatMessages?.map((message) => (
+              {messages?.map((message) => (
                 <div
                   key={message._id}
                   className={classNames("p-2 rounded-lg mb-2", {
@@ -271,10 +262,6 @@ const ChatBox = ({
             </div>
           </div>
         </div>
-        // </div>
-        // </div >
-        // </div>
-        // </div>
       )}
     </div>
   );

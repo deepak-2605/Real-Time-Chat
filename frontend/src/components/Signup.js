@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
  import { ToastContainer, toast } from 'react-toastify';
  import 'react-toastify/dist/ReactToastify.css';
 function Signup({ handleregister }) {
-  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -14,7 +13,6 @@ function Signup({ handleregister }) {
   const [loading, setloading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // const handleClickShow = () => setShow(!show);
 
   const submitHandler = async (e) => {
     e.preventDefault();
