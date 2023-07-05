@@ -93,7 +93,7 @@ const SideDrawer = ({ User ,chatList,setchatList,setchatLoading, chatLoading}) =
             searchLoader={loadSearch}
             authtoken={token}
             chatlist={chatList}
-            setchatList={setchatList}
+            setChatList={setchatList}
             setchatLoading={setchatLoading}
             chatLoading={chatLoading}
           />

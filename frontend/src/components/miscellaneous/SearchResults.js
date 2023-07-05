@@ -92,6 +92,7 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken,chatList,setChatList,
                   key={user._id}
                   user={user}
                   authtoken={authtoken}
+                  onClose={onClose}
                   chatList={chatList}
                   setChatList={setChatList}
                   setchatLoading={setchatLoading}
