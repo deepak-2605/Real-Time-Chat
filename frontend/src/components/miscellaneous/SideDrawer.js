@@ -4,6 +4,7 @@ import ProfileModal from "./ProfileModal";
 import { useNavigate } from "react-router";
 
 const SideDrawer = ({ User }) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);
@@ -45,12 +46,11 @@ const SideDrawer = ({ User }) => {
   return (
     <div
       style={{
-        d: "flex",
         padding: 8,
       }}
     >
       <div
-        className="bg-primary"
+        className="flex flex-col sm:flex-row"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -59,18 +59,18 @@ const SideDrawer = ({ User }) => {
           p: "5px 10px 5px 10px",
         }}
       >
-        {/* Side Drawer content starts */}
         <div
           //  className="flex "
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-evenly",
-            margin: 0,
-            width: 300,
+            // margin: 0,
+            // width: windowWidth < 600 ? '100%' : '300px',
             borderRadius: 20,
           }}
-          className="bg-white"
+          className="mb-2 md:mb-0 bg-white w-8/12 sm:w-72"
+          // className="bg-white"
         >
           <div className="px-2">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -94,10 +94,9 @@ const SideDrawer = ({ User }) => {
             authtoken={token}
           />
         </div>
-        {/* This is for profile Modal */}
-        <div>
+        <div className="w-8/12 sm:w-48">
           <div
-            class="relative text-left bg-white  hover:bg-gray-300 w-620 flex items-center"
+            class="relative bg-white  hover:bg-gray-300 flex items-center "
             style={{ borderRadius: 20 }}
           >
             <div className="px-2">
@@ -124,12 +123,12 @@ const SideDrawer = ({ User }) => {
                 </i>
               </button>
             </div>
-            <div className="dropdown">
-              <div className="relative">
+            <div className="dropdown text-center">
+              <div className="relative justify-evenly">
                 <div>
                   <button
                     type="button"
-                    className="px-4 py-2 text-black font-Poppins  focus:outline-none"
+                    className="px-4 py-2 text-black font-Poppins focus:outline-none"
                     onClick={toggleDropdown}
                   >
                     Options
@@ -140,7 +139,7 @@ const SideDrawer = ({ User }) => {
                   <div className="absolute right-0 mt-2 bg-white rounded shadow-md">
                     <button
                       type="button"
-                      className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                      className="block w-full px-4 py-2 text-center md:text-left hover:bg-gray-100"
                       onClick={openModal}
                     >
                       Open Profile

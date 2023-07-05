@@ -1,0 +1,43 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+  }
+  
+  .square {
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    background-color: #000;
+    animation: square-bounce 1s infinite;
+  }
+  
+  .square1 {
+    animation-delay: 0ms;
+  }
+  
+  .square2 {
+    animation-delay: 250ms;
+  }
+  
+  .square3 {
+    animation-delay: 500ms;
+  }
+  .square4{
+    animation-delay:750ms ;
+  }
+  
+  @keyframes square-bounce {
+    0% {
+      transform: translateY(0);
+    }
+  
+    50% {
+      transform: translateY(-20px);
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+  }

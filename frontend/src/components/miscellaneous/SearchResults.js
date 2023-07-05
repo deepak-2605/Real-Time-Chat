@@ -34,7 +34,7 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken }) => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-full bg-gray-600 text-white w-96 p-4 "
+      className="fixed left-0 top-0 h-full bg-gray-600 text-white w-11/12 sm:w-96 p-4 "
       style={{ borderRadius: 10 }}
     >
       <div>

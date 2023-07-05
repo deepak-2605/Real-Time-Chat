@@ -13,7 +13,7 @@ const Chat = ({User}) => {
                     <div className="sender">
                        <p>{name}</p>
                     </div>
-                    <div className="senderMessage">
+                    <div className="senderMessage overflow-hidden" style={{textOverflow: ellipsis, whiteSpace: nowrap}}>
                          {chat}
                     </div>
                 </div>
