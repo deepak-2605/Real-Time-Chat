@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
-export default function GroupChatUserListItem({user,authtoken,isSelected,setIsselected,SelectedUsers,setSelectedUsers}) {
+export default function GroupChatUserListItem({user,authtoken,isSelected,setIsselected,SelectedUsers,setSelectedUsers,chatId}) {
      const handleGroup=(UserToBeAdded)=>{
          setIsselected(true)
          if(SelectedUsers.includes(UserToBeAdded)){

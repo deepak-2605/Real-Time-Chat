@@ -8,7 +8,7 @@ const ENDPOINT = "http://localhost:3001";
 var socket, selectedChatCompare;
 
 
-const ChatBox = ({ chatMessages, id, user, chatId, isGroupChat, chatName, userList, authtoken }) => {
+const ChatBox = ({ chatMessages, id, user, chatId, isGroupChat, chatName, userList, authtoken, chatList }) => {
   const [groupModify, setGroupModify] = useState(false);
   const [messages, setMessages] = useState(chatMessages);
   const [socketConnected, setsocketConnected] = useState(false);
@@ -176,11 +176,11 @@ const ChatBox = ({ chatMessages, id, user, chatId, isGroupChat, chatName, userLi
                 </button>
               </div>
             </div>
-            {/* <div className="">
-              <div className="flex flex-col justify-end w-full "> */}
+            {/* <div className="h-full"> */}
+            {/* <div className="flex flex-col justify-end w-full h-full"> */}
             {/* Chat Messages */}
             <div>
-              <GroupAddModal chatName={chatName} userList={userList} authtoken={authtoken} isOpen={groupModify} onClose={closehandler} />
+              <GroupAddModal chatName={chatName} userList={userList} authtoken={authtoken} isOpen={groupModify} onClose={closehandler} chatId={chatId} chatList={chatList} user={user} />
             </div>
             <div className="flex flex-col-reverse w-full overflow-auto " style={{ boxSizing: "border-box", height: "71.5vh" }}>
               {chatMessages?.map(
@@ -228,10 +228,12 @@ const ChatBox = ({ chatMessages, id, user, chatId, isGroupChat, chatName, userLi
             </div>
           </div>
         </div>
+          // </div>
+        // </div >
         // </div>
         // </div>
       )}
-    </div>
+    </div >
   );
 };
 

@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import UserListItem from "./UserListItem";
 import GroupChatUserListItem from "./GroupChatUserListItem";
 
-const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
+const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authtoken,chatId,chatList,user }) => {
   const [searchBox, setsearchBox] = useState(false);
   const [GroupChatName, setGroupChatName] = useState();
   const [SelectedUsers, setSelectedUsers] = useState([]);
@@ -41,7 +41,9 @@ const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
       SelectedUsers.filter((obj) => obj !== object)
     );
   };
-
+  // Remove user from group
+  // user1 is the user which need to be removed
+ 
   return (
     <div>
       {isOpen && (
@@ -65,7 +67,7 @@ const GroupAddModal = ({ chatName, userList, isOpen, onClose, authtoken }) => {
                     user={user}
                     authtoken={authtoken}
                   />
-                  <i class="fa-solid fa-xmark" />
+                  <button >X</button>
                 </div>
               ))}
               <button

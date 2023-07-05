@@ -22,6 +22,7 @@ const ChatPage = () => {
     email: user.email,
     profilePic: user.profilePic,
     id: user._id,
+    about:user.about,
   };
   const [chatList, setchatList] = useState([]);
   const [chatmessages, setChatmessages] = useState([]);
@@ -136,6 +137,7 @@ const ChatPage = () => {
                         authtoken={authtoken}
                         chatList={chatList}
                         setchatList={setchatList}
+                        chatId={chatId}
                       ></GroupChatModal>
                     )}
                   </div>
@@ -153,6 +155,7 @@ const ChatPage = () => {
                 <div>
                   {!chat.isGroupChat && (
                     <div
+                      
                       id={chat._id}
                       isGroup={false}
                       onClick={openChat}
@@ -232,6 +235,7 @@ const ChatPage = () => {
           {isChatOpen && (
             <ChatBox
               chatMessages={chatmessages}
+              chatList={chatList}
               id={user._id}
               user={user}
               chatId={chatId}

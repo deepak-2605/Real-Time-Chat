@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserListItem from "./UserListItem";
 import GroupChatUserListItem from "./GroupChatUserListItem";
-export default function GroupChatModal({ authtoken, chatList, setChatList }) {
+export default function GroupChatModal({ authtoken, chatList, setChatList,chatId }) {
   const [GroupChatName, setGroupChatName] = useState();
   const [SelectedUsers, setSelectedUsers] = useState([]);
   const [isSelected, setIsselected] = useState(false);
@@ -64,6 +64,7 @@ export default function GroupChatModal({ authtoken, chatList, setChatList }) {
   const handleRemove = (object) => {
     setSelectedUsers((SelectedUsers) =>
       SelectedUsers.filter((obj) => obj !== object)
+  
     );
   };
 
@@ -123,6 +124,7 @@ export default function GroupChatModal({ authtoken, chatList, setChatList }) {
               setIsselected={setIsselected}
               SelectedUsers={SelectedUsers}
               setSelectedUsers={setSelectedUsers}
+              chatId={chatId}
             />
           ))}
         <button type="submit" onClick={(e) => handleSubmit(e)}>
