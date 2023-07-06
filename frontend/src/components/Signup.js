@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate } from "react-router";
  import { ToastContainer, toast } from 'react-toastify';
  import 'react-toastify/dist/ReactToastify.css';
@@ -9,6 +9,7 @@ function Signup({ handleregister }) {
   const [password, setPassword] = useState();
   const [confirmPassword, setconfirmPassword] = useState();
   const [profilePic, setprofilePic] = useState();
+  const [pics, setpic] = useState();
   const [picLoading, setPicLoading] = useState(false);
   const [loading, setloading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -39,7 +40,6 @@ function Signup({ handleregister }) {
       }),
     });
     const json = await response.json();
-    console.log(json);
     if (json.success) {
       localStorage.setItem("token", json.authtoken);
       toast.success("Registration successful");
@@ -56,7 +56,8 @@ function Signup({ handleregister }) {
     navigate("/");
   }
 
-  const postDetails = (pics) => {
+  const postDetails = async (e) => {
+    e.preventDefault();
     setPicLoading(true);
     if (pics === undefined) {
       toast.error("Try uploading again");
@@ -66,32 +67,28 @@ function Signup({ handleregister }) {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
-      fetch(
-        "https://www.filestackapi.com/api/store/S3?key=AD8Dd3nHvQ4WRSf3cfCJJz",
+      data.append("upload_preset", "jsyelmc8");
+      data.append("cloud_name", "dkafhonlw");
+      await fetch(
+        "https://api.cloudinary.com/v1_1/dkafhonlw/image/upload",
         {
           method: "POST",
-          headers: { "content-type": "image/png" },
-          data: data,
+          body: data,
         }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setprofilePic(data.url.toString());
-          console.log(data.url.toString());
+      ).then(response => response.json())
+        .then(image => {
+          setprofilePic(image.url);
           setPicLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setPicLoading(false);
-        });
-        toast.success("Profile Pic uploaded successfully");
-    } else {
-      toast.error("use only jpeg and png format");
-      setPicLoading(false);
-      return;
+          toast.success("Profile Pic uploaded successfully");
+          return;  
+      })
+      .catch(error => {
+        toast.error("error while uploading");
+      })
+      
     }
-  };
-
+  }
+  
   return (
     <>
      <ToastContainer></ToastContainer>
@@ -172,13 +169,13 @@ function Signup({ handleregister }) {
                 </div>
               </div>
               <div>
-                <p className=" text-xl font-large leading-6 text-black font-Poppins">Upload Image</p>
+                <p className=" text-xl font-large leading-6 text-black font-Poppins"></p>
                 {selectedImage && (
                   <div>
                     <img
                       alt="not found"
                       width={"250px"}
-                      src={URL.createObjectURL(selectedImage)}
+                      src={URL.createObjectURL(selectedImage)} 
                     />
                     <br />
                     <button onClick={() => setSelectedImage(null)}>
@@ -189,8 +186,9 @@ function Signup({ handleregister }) {
                 <input
                   type="file"
                   name="myImage"
-                  onChange={(e) => postDetails(e.target.files[0])}
+                  onChange={(e) => setpic(e.target.files[0])}
                 />
+                <button className="font-semibold cursor-pointer m-4 bg-indigo-600 text-white" onClick={postDetails}>upload</button>
               </div>
               <div>
                 <button

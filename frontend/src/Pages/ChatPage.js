@@ -10,7 +10,6 @@ import { useNavigate } from "react-router";
 
 import { useState, useEffect } from "react";
 import GroupChatModal from "../components/miscellaneous/GroupChatModal";
-import { set } from "mongoose";
 const ChatPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -119,7 +118,7 @@ const ChatPage = () => {
   };
   return (
     <div style={{ height: 700 }}>
-      {(!isChatOpen || window.innerWidth >= 1024) && (<SideDrawer
+      {(!isChatOpen || window.innerWidth >= 768) && (<SideDrawer
         User={userObject}
         authtoken={authtoken}
         chatList={chatList}
@@ -127,8 +126,8 @@ const ChatPage = () => {
         setchatLoading={setchatLoading}
         chatLoading={chatLoading}
       ></SideDrawer>)}
-      <div className="flex flex-col sm:flex-row w-full">
-        {(!isChatOpen || window.innerWidth >= 1024) && (<div className="display w-11/12 mr-2 sm:w-3/12 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
+      <div className="flex flex-col md:flex-row w-full">
+        {(!isChatOpen || window.innerWidth >= 768) && (<div className="display w-full mr-2 sm:w-full md:w-1/3 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
           <div
             className="flex flex-col md:flex-row  mb-2"
             style={{ alignItems: "center", justifyContent: "space-around" }}
@@ -163,7 +162,7 @@ const ChatPage = () => {
             </div>
           </div>
           <div
-            className="flex-col p-2"
+            className="flex-col p-2 "
             style={{ height: 600, overflow: "auto" }}
           >
             {chatLoading &&
@@ -178,13 +177,14 @@ const ChatPage = () => {
                     >
                       {/* {console.log("chat", chat)} */}
                       {/* {chat.userList[0]._id === userObject.id ? setchatName(chat.userList[1].name) : setchatName(chat.userList[0].name)} */}
-                      <div className="w-1/6 px-2 py-2">
+                      <div className=" w-1/6 px-2 py-2">
                         <img
                           src={
                             (chat.usersList)[1]._id === user._id
                               ? (chat.usersList)[0].profilePic
                               : (chat.usersList)[1].profilePic
                           }
+                          width="50rem"
                           className="object-cover"
                           style={{ borderRadius: 24 }}
                         ></img>
@@ -246,7 +246,7 @@ const ChatPage = () => {
             )}
           </div>
         </div>)}
-        <div className="w-11/12 sm:w-9/12 bg-white rounded-2xl mx-4 mt-2">
+        <div className="w-10/12 sm:w-9/12 bg-white rounded-2xl mx-4 mt-2">
           {isChatOpen && (
             <ChatBox
               chatMessages={chatmessages}
@@ -258,13 +258,15 @@ const ChatPage = () => {
               isGroupChat={group}
               isChatOpen={isChatOpen}
               setIsChatOpen={setIsChatOpen}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
               chatName={chatName}
               userList={userList}
               authtoken={authtoken}
               onClose={() => setIsChatOpen(false)}
             />
           )}
-          {!isChatOpen && !isLoading && window.innerWidth >= 1025 && (
+          {!isChatOpen && !isLoading && window.innerWidth >= 768 && (
             <div
               className="h-full"
               style={{
