@@ -116,16 +116,19 @@ const ChatPage = () => {
   const handleClickNewGroup = () => {
     setGroupModal(!GroupModal);
   };
+  // const modstyle={
+  //   height:height
+  // }
   return (
     <div style={{ height: 700 }}>
-      {(!isChatOpen || window.innerWidth >= 768) && (<SideDrawer
+      <SideDrawer
         User={userObject}
         authtoken={authtoken}
         chatList={chatList}
         setchatList={setchatList}
         setchatLoading={setchatLoading}
         chatLoading={chatLoading}
-      ></SideDrawer>)}
+      ></SideDrawer>
       <div className="flex flex-col md:flex-row w-full">
         {(!isChatOpen || window.innerWidth >= 768) && (<div className="display w-full mr-2 sm:w-full md:w-1/3 mx-2 h-full bg-green-600 rounded-2xl px-3 py-4 mt-2">
           <div
@@ -266,7 +269,7 @@ const ChatPage = () => {
               onClose={() => setIsChatOpen(false)}
             />
           )}
-          {!isChatOpen && !isLoading && window.innerWidth >= 768 && (
+          {(!isChatOpen && !isLoading && window.innerWidth >= 768) && (
             <div
               className="h-full"
               style={{
@@ -281,7 +284,7 @@ const ChatPage = () => {
               </div>
             </div>
           )}
-          {!isChatOpen && isLoading && (
+          {(!isChatOpen && isLoading && window.innerWidth>768) && (
             <div className="h-full flex items-center justify-center" >
               <Loader />
             </div>
