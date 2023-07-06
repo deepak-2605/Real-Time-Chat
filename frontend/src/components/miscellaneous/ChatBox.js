@@ -30,13 +30,17 @@ const ChatBox = ({
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const [notification, setNotification] = useState();
+  const [usertyping, setusertyping] = useState();
 
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => setsocketConnected(true));
     socket.emit("join chat", chatId);
-    socket.on("typing", () => setIsTyping(true));
+    socket.on("typing", (user) => {
+      setIsTyping(true)
+      setusertyping(user.name);
+    });
     socket.on("stop typing", () => setIsTyping(false));
   }, [chatId]);
   const modifyHandler = () => {
@@ -69,7 +73,7 @@ const ChatBox = ({
       const data = await response.json();
       if (data.success) {
         socket.emit("new message", data.message);
-        setMessages([data.message,...messages]);
+        setMessages([data.message, ...messages]);
         setNewMessage("");
       } else {
         toast.error("error sending message")
@@ -88,7 +92,7 @@ const ChatBox = ({
           console.log(notification);
         }
       } else {
-        setMessages([newMessageRecieved,...messages]);
+        setMessages([newMessageRecieved, ...messages]);
       }
     });
   });
@@ -99,7 +103,7 @@ const ChatBox = ({
 
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", id,userList);
+      socket.emit("typing", id, userList, user);
     }
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
@@ -126,21 +130,45 @@ const ChatBox = ({
         <div className="mx-3 h-screen">
 
           {userList[0]._id === id ? (
-            <div className="bg-green-600 text-white rounded-xl m-1 flex justify-start p-3 text-lg ">
-              {" "}
-              <img
-                className="rounded-3xl mx-2"
-                width="40rem"
-                src={userList[1].profilePic}
-                alt=""
-              />{" "}
-              {userList[1].name}
+            <div className="bg-green-600 text-white flex p-2 rounded-lg">
+              <div className="flex items-center">
+                {" "}
+                <img
+                  className="h-12 rounded-3xl mx-2"
+                  width="50rem"
+                  src={userList[1].profilePic}
+                  alt=""
+                />{" "}
+              </div>
+              <div className="px-2">
+                <div className="rounded-xl text-lg ">
+                  {userList[1].name}
+                </div>
+                <div className="px-5">
+                  {istyping ? <div>typing...</div> : <></>}
+                </div>
+              </div>
             </div>
+
           ) : (
-            <div className="bg-green-600 text-white rounded-xl flex justify-start p-3 text-lg ">
-              {" "}
-                <img src={userList[0].profilePic} width="40rem" alt="" className="mx-2"/>
-                {userList[0].name}
+            <div className="bg-green-600 text-white flex p-2 rounded-lg">
+              <div className="flex items-center">
+                {" "}
+                <img
+                  className="h-12 rounded-3xl mx-2"
+                  width="50rem"
+                  src={userList[0].profilePic}
+                  alt=""
+                />{" "}
+              </div>
+              <div className="px-2">
+                <div className="rounded-xl text-lg ">
+                  {userList[0].name}
+                </div>
+                <div className="px-5">
+                  {istyping ? <div>typing...</div> : <></>}
+                </div>
+              </div>
             </div>
           )}
           <div
@@ -166,9 +194,8 @@ const ChatBox = ({
             ))}
           </div>
           <div className="w-full h-1/6">
-            <div className="bg-gray-200 p-4 w-full">
+            <div className="bg-gray-200 p-4 w-full rounded-xl">
               {/* Message Box */}
-              {istyping ? <div>typing...</div> : <></>}
               <form className="flex">
                 <input
                   type="text"
@@ -192,18 +219,21 @@ const ChatBox = ({
           </div>
         </div>
       )}
+
       {isGroupChat && (
         <div className="">
           <div className="sm:mx-3">
-            <div className="bg-green-600 text-white rounded-xl m-1 flex justify-between p-3 text-lg">
-              {chatName}
-              <div
-                className="h-1/12 flex"
-                style={{ alignItems: "center", justifyContent: "end" }}
-              >
+            <div className="bg-green-600 text-white p-2 rounded-lg">
+              <div className="rounded-xl text-lg flex justify-between px-5">
+                <div>
+                  {chatName}
+                </div>
                 <button onClick={modifyHandler}>
-                  <i className="fa-solid fa-eye fa-xl p-5"></i>
+                  <i className="fa-solid fa-eye fa-xl"></i>
                 </button>
+              </div>
+              <div className="px-5">
+                {istyping ? <div>{usertyping} {" "} is typing...</div> : <></>}
               </div>
             </div>
             <div>
@@ -220,7 +250,7 @@ const ChatBox = ({
             </div>
             <div
               className="flex flex-col-reverse w-full overflow-auto "
-              style={{ boxSizing: "border-box", height: "71.5vh" }}
+              style={{ boxSizing: "border-box", height: "70vh" }}
             >
               {messages?.map((message) => (
                 <div

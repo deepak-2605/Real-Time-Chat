@@ -32,8 +32,8 @@ const UserListItem = ({ user, authtoken, onClose, chatList, setChatList , setcha
     return (
         <>
         <ToastContainer></ToastContainer>
-        <div onClick={handleChatCreate} className="flex items-center my-2 px-2 rounded-xl cursor-pointer">
-            <img className="rounded-xl" width='50px' src={user.profilePic} alt="" />
+        <div onClick={handleChatCreate} className="flex items-center my-2 px-2 rounded-xl cursor-pointer box-border">
+            <img className="rounded-3xl h-12" width='50rem' src={user.profilePic} alt="" />
             <div className="m-2">
                 <div className="text-lg">{user.name}</div>
                 <div className="text-xs">{user.email}</div>
