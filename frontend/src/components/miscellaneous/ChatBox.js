@@ -15,6 +15,8 @@ const ChatBox = ({
   isGroupChat,
   isChatOpen,
   setIsChatOpen,
+  isLoading,
+  setIsLoading,
   chatName,
   userList,
   authtoken,
@@ -111,6 +113,7 @@ const ChatBox = ({
     }, timerLength);
   };
   const handleback = () => {
+    setIsLoading(false);
     setIsChatOpen(false);
   }
   return (
@@ -136,7 +139,8 @@ const ChatBox = ({
           ) : (
             <div className="bg-green-600 text-white rounded-xl flex justify-start p-3 text-lg ">
               {" "}
-              <img src={userList[0].profilePic} alt="" /> {userList[0].name}
+                <img src={userList[0].profilePic} width="40rem" alt="" className="mx-2"/>
+                {userList[0].name}
             </div>
           )}
           <div
