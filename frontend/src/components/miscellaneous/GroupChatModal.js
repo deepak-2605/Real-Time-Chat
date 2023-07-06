@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import UserListItem from "./UserListItem";
 import GroupChatUserListItem from "./GroupChatUserListItem";
  import { ToastContainer, toast } from 'react-toastify';
-export default function GroupChatModal({ authtoken, chatList, setChatList,chatId }) {
+export default function GroupChatModal({ authtoken, chatList, setchatList,chatId }) {
   const [GroupChatName, setGroupChatName] = useState();
   const [SelectedUsers, setSelectedUsers] = useState([]);
   const [isSelected, setIsselected] = useState(false);
   const [Search, setSearch] = useState("");
   const [SearchResult, setSearchResult] = useState();
   const [loading, setLoading] = useState(true);
+  const [groupCreating,setGroupCreating]=useState(false);
   // console.log(chatList);
   const handleSearch = async (query) => {
     setSearch(query);
@@ -43,6 +44,7 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
       return;
     }
     try {
+      setGroupCreating(true);
       const response = await fetch("http://localhost:3001/api/chat/group", {
         method: "POST",
         headers: {
@@ -56,8 +58,10 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
       });
       const data = await response.json();
       console.log(data);
-      setChatList([data, ...chatList]);
-      console.log("a",chatList);
+      setchatList([data, ...chatList]);
+      toast.success("Group Created Successfully");
+      setGroupCreating(false);
+      // console.log("a",chatList);
     } catch (error) {
       toast.error("Error occured");
       console.log("Error occured");
@@ -133,7 +137,12 @@ export default function GroupChatModal({ authtoken, chatList, setChatList,chatId
             />
           ))}
         <button type="submit" onClick={(e) => handleSubmit(e)}>
-          Submit
+          {groupCreating && (
+            "Creating..."
+          )}
+          {!groupCreating && (
+            "Submit"
+          )}
         </button>
       </form>
     </div>

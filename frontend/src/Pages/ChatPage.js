@@ -222,7 +222,7 @@ const ChatPage = () => {
                         <div className="p-1 h-1/2 font-Poppins font-bold">
                           {chat.chatName}
                         </div>
-                        <div className="p-1 h-1/2 font-['inter']">
+                        <div className="p-1 h-1/2 font-['inter']" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {chat.recentMessage &&
                             chat.recentMessage.length > 0 &&
                             chat.recentMessage[0].content}
