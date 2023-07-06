@@ -57,14 +57,13 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log("User Joined Room: " + room);
   });
-  socket.on("typing", (id,userList) => {
+  socket.on("typing", (id,userList, currentUser) => {
 
     if (!userList) return ;
 
     userList.forEach((user) => {
       if (user._id === id) return;
-
-      socket.in(user._id).emit("typing");
+      socket.in(user._id).emit("typing", currentUser);
     });
   });
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));

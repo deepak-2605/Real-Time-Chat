@@ -51,10 +51,10 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
       {isOpen && (
         <div>
           <div className="fixed inset-0 flex items-center justify-center z-50 rounded-xl">
-            <div className=" bg-gray-200 w-1/3 p-0 rounded shadow-lg border-black border-4">
+            <div className=" bg-gray-200 p-0 rounded shadow-lg border-black border-4">
               {/* <div className="flex"> */}
-              <div className="bg-green-300 flex h-16 items-center justify-center">
-                <h2 className="text-2xl font-bold text-center mb-4 flex-1">
+              <div className="bg-green-300 flex h-16">
+                <h2 className="text-2xl font-bold text-center self-center mb-4 flex-1">
                   {chatName}
                 </h2>
                 {/* </div> */}
@@ -63,16 +63,15 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
                 </button>
               </div>
               {userList?.map((user) => (
-                <div className="bg-slate-500 m-2 text-white rounded-lg flex justify-between px-2 w-80">
+                <div className="bg-slate-500 m-2 text-white rounded-lg flex px-2 w-72">
                   <UserListItem
                     key={user._id}
                     user={user}
                     authtoken={authtoken}
                   />
-                  <button >X</button>
                 </div>
               ))}
-              <button
+              {/* <button
                 onClick={() => setsearchBox(true)}
                 className="bg-blue-400 hover:bg-blue-700 text-white p-2 m-4 rounded-lg"
               >
@@ -145,7 +144,7 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
                     </div>
                   )}
                 </div>
-              )}
+              )} */}
               {/* <div className="flex items-center justify-center mb-2">
                 <img
                   //src={profilePic}

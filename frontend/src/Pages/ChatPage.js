@@ -185,7 +185,7 @@ const ChatPage = () => {
                               : (chat.usersList)[1].profilePic
                           }
                           width="50rem"
-                          className="object-cover"
+                          className="object-cover h-12"
                           style={{ borderRadius: 24 }}
                         ></img>
                       </div>

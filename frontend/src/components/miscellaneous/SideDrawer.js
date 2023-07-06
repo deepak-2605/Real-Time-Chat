@@ -98,7 +98,7 @@ const SideDrawer = ({ User ,chatList,setchatList,setchatLoading, chatLoading}) =
             chatLoading={chatLoading}
           />
         </div>
-        <div className="w-8/12 sm:w-48">
+        {!drawerOpen && <div className="w-8/12 sm:w-48">
           <div
             class="relative bg-white  hover:bg-gray-300 flex items-center "
             style={{ borderRadius: 20 }}
@@ -165,7 +165,7 @@ const SideDrawer = ({ User ,chatList,setchatList,setchatLoading, chatLoading}) =
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );
