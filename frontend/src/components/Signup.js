@@ -144,7 +144,7 @@ function Signup({ handleregister }) {
 
                   <div className="mt-2">
                     <input
-                      type="text"
+                      type="password"
                       class="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -162,7 +162,7 @@ function Signup({ handleregister }) {
 
                   <div className="mt-2">
                     <input
-                      type="text"
+                      type="password"
                       class="bg-transparent border-b-4 border-gray-400 focus:border-black outline-none block w-full appearance-none leading-normal text-base"
                       onChange={(e) => setconfirmPassword(e.target.value)}
                     />

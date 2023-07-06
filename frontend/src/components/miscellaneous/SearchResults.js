@@ -38,7 +38,7 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken,chatList,setChatList,
     <ToastContainer></ToastContainer>
     <div
       className="fixed left-0 top-0 h-full bg-gray-600 text-white w-11/12 sm:w-96 p-4 "
-      style={{ borderRadius: 10 }}
+      style={{ borderRadius: 10,position:'absolute', zIndex:10 }}
     >
       <div>
         <button onClick={onClose}>
@@ -85,7 +85,7 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken,chatList,setChatList,
               </div>
             )}
           </div>
-          <div id="search_result">
+          <div id="search_result" style={{overflow:"auto"}} className="flex-col">
             {!loading &&
               searchResult?.map((user) => (
                 <UserListItem

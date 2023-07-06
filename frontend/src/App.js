@@ -12,7 +12,7 @@ import {
 
 function App() {
   const getHeight = () => {
-    return window.innerWidth <= 600 ? "1400px" : "800px";
+    return window.innerWidth <= 600 ? "900px" : "800px";
   };
   const [height, setHeight] = useState(getHeight());
   useEffect(() => {

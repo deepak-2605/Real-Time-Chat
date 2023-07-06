@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import classNames from "classnames";
 import GroupAddModal from "./GroupAddModal.js";
 import io from "socket.io-client";
@@ -21,8 +21,8 @@ const ChatBox = ({
   userList,
   authtoken,
   chatList,
-
 }) => {
+  const [typingChatId,setTypingChatId]=useState()
   const [groupModify, setGroupModify] = useState(false);
   const [messages, setMessages] = useState(chatMessages);
   const [socketConnected, setsocketConnected] = useState(false);
@@ -37,9 +37,10 @@ const ChatBox = ({
     socket.emit("setup", user);
     socket.on("connected", () => setsocketConnected(true));
     socket.emit("join chat", chatId);
-    socket.on("typing", (user) => {
-      setIsTyping(true)
+    socket.on("typing", (user,thisChatId) => {
+      setIsTyping(true);
       setusertyping(user.name);
+      setTypingChatId(thisChatId);
     });
     socket.on("stop typing", () => setIsTyping(false));
   }, [chatId]);
@@ -76,7 +77,7 @@ const ChatBox = ({
         setMessages([data.message, ...messages]);
         setNewMessage("");
       } else {
-        toast.error("error sending message")
+        toast.error("error sending message");
       }
     }
   };
@@ -103,7 +104,7 @@ const ChatBox = ({
 
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", id, userList, user);
+      socket.emit("typing", id, userList, user,chatId);
     }
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
@@ -119,54 +120,111 @@ const ChatBox = ({
   const handleback = () => {
     setIsLoading(false);
     setIsChatOpen(false);
-  }
+  };
   return (
     <div>
-      <div><button onClick={handleback} className="cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-6 border hover:border-transparent rounded mb-2 ml-2 mt-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-      </svg>
-      </button></div>
+      {/* <div>
+        <button
+          onClick={handleback}
+          className="cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-6 border hover:border-transparent rounded mb-2 ml-2 mt-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+            />
+          </svg>
+        </button>
+      </div> */}
       {!isGroupChat && (
-        <div className="mx-3 h-screen">
-
+        <div className="">
           {userList[0]._id === id ? (
-            <div className="bg-green-600 text-white flex p-2 rounded-lg">
-              <div className="flex items-center">
-                {" "}
-                <img
-                  className="h-12 rounded-3xl mx-2"
-                  width="50rem"
-                  src={userList[1].profilePic}
-                  alt=""
-                />{" "}
-              </div>
-              <div className="px-2">
-                <div className="rounded-xl text-lg ">
-                  {userList[1].name}
+            <div className="sm:mx-3">
+              <div className="bg-green-600 text-white flex p-2 rounded-lg">
+                <div>
+                  <button
+                    onClick={handleback}
+                    className="cursor-pointer bg-transparent hover:bg-white text-white font-semibold hover:text-green-600 py-1 px-6 border hover:border-transparent rounded-xl mb-2 ml-2 mt-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <div className="px-5">
-                  {istyping ? <div>typing...</div> : <></>}
+                <div className="flex items-center">
+                  {" "}
+                  <img
+                    className="h-12 rounded-3xl mx-2"
+                    width="50rem"
+                    src={userList[1].profilePic}
+                    alt=""
+                  />{" "}
+                </div>
+                <div className="px-2">
+                  <div className="rounded-xl text-lg ">{userList[1].name}</div>
+                  <div className="px-5">
+                    {istyping && (chatId===typingChatId) ? <div>typing...</div> : <></>}
+                  </div>
                 </div>
               </div>
             </div>
-
           ) : (
-            <div className="bg-green-600 text-white flex p-2 rounded-lg">
-              <div className="flex items-center">
-                {" "}
-                <img
-                  className="h-12 rounded-3xl mx-2"
-                  width="50rem"
-                  src={userList[0].profilePic}
-                  alt=""
-                />{" "}
-              </div>
-              <div className="px-2">
-                <div className="rounded-xl text-lg ">
-                  {userList[0].name}
+            <div className="sm:mx-3">
+              <div className="bg-green-600 text-white flex p-2 rounded-lg">
+                <div>
+                  <button
+                    onClick={handleback}
+                    className="cursor-pointer bg-transparent hover:bg-white text-white font-semibold hover:text-green-600 py-1 px-6 border hover:border-transparent rounded-xl mb-2 ml-2 mt-2"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+                      />
+                    </svg>
+                  </button>
                 </div>
-                <div className="px-5">
-                  {istyping ? <div>typing...</div> : <></>}
+                <div className="flex items-center">
+                  {" "}
+                  <img
+                    className="h-12 rounded-3xl mx-2"
+                    width="50rem"
+                    src={userList[0].profilePic}
+                    alt=""
+                  />{" "}
+                </div>
+                <div className="px-2">
+                  <div className="rounded-xl text-lg ">{userList[0].name}</div>
+                  <div className="px-5">
+                    {istyping && (chatId===typingChatId) ? <div>typing...</div> : <></>}
+                  </div>
                 </div>
               </div>
             </div>
@@ -194,7 +252,7 @@ const ChatBox = ({
             ))}
           </div>
           <div className="w-full h-1/6">
-            <div className="bg-gray-200 p-4 w-full rounded-xl">
+            <div className="bg-gray-200 p-2 sm:p-4 w-full rounded-xl">
               {/* Message Box */}
               <form className="flex">
                 <input
@@ -209,10 +267,20 @@ const ChatBox = ({
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-r-lg px-4 py-2 ml-2"
                   onClick={sendMessage}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
                   </svg>
-
                 </button>
               </form>
             </div>
@@ -223,17 +291,41 @@ const ChatBox = ({
       {isGroupChat && (
         <div className="">
           <div className="sm:mx-3">
-            <div className="bg-green-600 text-white p-2 rounded-lg">
-              <div className="rounded-xl text-lg flex justify-between px-5">
-                <div>
-                  {chatName}
-                </div>
-                <button onClick={modifyHandler}>
-                  <i className="fa-solid fa-eye fa-xl"></i>
+            <div className="bg-green-600 text-white p-2 rounded-lg flex items-center">
+              <div className="flex-grow-1" style={{ width: 60 }}>
+                <button
+                  onClick={handleback}
+                  className="cursor-pointer bg-transparent hover:bg-white text-white font-semibold hover:text-green-600 py-1 px-6 border hover:border-transparent rounded-xl mb-2 ml-2 mt-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+                    />
+                  </svg>
                 </button>
               </div>
-              <div className="px-5">
-                {istyping ? <div>{usertyping} {" "} is typing...</div> : <></>}
+              <div
+                className="rounded-xl text-lg flex-grow-7 justify-between px-5 ml-2"
+                style={{ width: 900 }}
+              >
+                <div className="flex justify-between">
+                  <div>{chatName}</div>
+                  <button onClick={modifyHandler}>
+                    <i className="fa-solid fa-eye fa-xl"></i>
+                  </button>
+                </div>
+                <div className="px-5">
+                  {istyping && (chatId===typingChatId) ? <div>{usertyping} is typing...</div> : <></>}
+                </div>
               </div>
             </div>
             <div>
@@ -286,10 +378,20 @@ const ChatBox = ({
                     className="bg-blue-500 hover:bg-blue-600 text-white font-bold text-sm sm:text-base rounded-r-lg sm:px-4 sm:py-2 ml-1 sm:ml-2"
                     onClick={sendMessage}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-
                   </button>
                 </form>
               </div>
