@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const connecttoDB = require("./config/db");
 const { notFound, errorHandler } = require('./middleware/errorMiddleware')
 var bodyParser = require('body-parser');   
+const path=require("path");
 const chatRoutes=require('./routes/chatRoutes');
 const messageRoutes=require('./routes/messageRoutes');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })  
@@ -14,9 +15,7 @@ connecttoDB();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("API is running");
-})
+
 // For UserRoutes
  app.use('/api/user', cors() , require('./routes/userRoutes'));
 
@@ -30,8 +29,20 @@ app.use("/api/message",messageRoutes);
 
 // For error handling functions
  
+// ----DEPLOYMENT ----
+const __dirname1=path.resolve();
+if(process.env.NODE_ENV==='production'){
+    app.use(express.static(path.join(__dirname1,'/frontend/build')));
+    app.get('*',(req,res)=>{
+      res.sendFile(path.resolve(__dirname1,"frontend","build","index.html"))
+    })
+}else{
+   app.get("/", (req, res) => {
+    res.send("API is running");
+})
+}
 
-
+// ----DEPLOYMENT ----
 const PORT = process.env.PORT || 5000
 
 const server = app.listen(PORT, console.log(`server started on ${PORT}`));
