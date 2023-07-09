@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import classNames from "classnames";
 import GroupAddModal from "./GroupAddModal.js";
 import io from "socket.io-client";
-const ENDPOINT = "http://localhost:3001";
+const ENDPOINT = "https://real-time-chat-one.vercel.app";
 
 var socket, selectedChatCompare;
 
