@@ -7,7 +7,7 @@ const UserListItem = ({ user, authtoken, onClose, chatList, setChatList , setcha
         e.preventDefault();
         setchatLoading(false);
         const userid = user._id;
-        const response = await fetch("http://localhost:3001/api/chat", {
+        const response = await fetch("https://chat-app-a4kn.onrender.com/api/chat", {
             method: "POST",
             headers:{
                 authorization: `Bearer ${authtoken}`,

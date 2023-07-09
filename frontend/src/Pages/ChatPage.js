@@ -67,7 +67,7 @@ const ChatPage = () => {
           authorization: `Bearer ${authtoken}`,
         },
       };
-      const response = await fetch("http://localhost:3001/api/chat", config);
+      const response = await fetch("https://chat-app-a4kn.onrender.com/api/chat", config);
       const chatlist = await response.json();
       const result = [];
       chatlist.forEach((element) => {
@@ -95,7 +95,7 @@ const ChatPage = () => {
       },
     };
     const response = await fetch(
-      `http://localhost:3001/api/message/${chatid}`,
+      `https://chat-app-a4kn.onrender.com/api/message/${chatid}`,
       config
     );
     const allmessages = await response.json();

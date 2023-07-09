@@ -27,7 +27,7 @@ function Signup({ handleregister }) {
 
       return;
     }
-    const response = await fetch("http://localhost:3001/api/user", {
+    const response = await fetch("https://chat-app-a4kn.onrender.com/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

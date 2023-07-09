@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import classNames from "classnames";
 import GroupAddModal from "./GroupAddModal.js";
 import io from "socket.io-client";
-const ENDPOINT = "https://real-time-chat-one.vercel.app";
+const ENDPOINT = "https://chat-app-a4kn.onrender.com";
 
 var socket, selectedChatCompare;
 
@@ -63,7 +63,7 @@ const ChatBox = ({
         content: newMessage,
         chatId: chatId,
       });
-      const response = await fetch("http://localhost:3001/api/message", {
+      const response = await fetch("https://chat-app-a4kn.onrender.com/api/message", {
         method: "POST",
         body: data2,
         headers: {
