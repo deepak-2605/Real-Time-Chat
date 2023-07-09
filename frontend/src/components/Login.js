@@ -15,7 +15,8 @@ function Login(prop) {
       setLoading(false);
       return;
     }
-    const response = await fetch("http://localhost:3001/api/user/login", {
+    // http://localhost:3001
+    const response = await fetch("https://chat-app-jzgr.onrender.com/api/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

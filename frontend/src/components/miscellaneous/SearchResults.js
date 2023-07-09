@@ -25,7 +25,7 @@ const Drawer = ({ isOpen, onClose, searchLoader, authtoken,chatList,setChatList,
       },
     };
     const response = await fetch(
-      `http://localhost:3001/api/user?search=${searchValue}`,
+      `https://chat-app-jzgr.onrender.com/api/user?search=${searchValue}`,
       config
     );
     const data = await response.json();
