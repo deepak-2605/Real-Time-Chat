@@ -24,7 +24,7 @@ export default function GroupChatModal({ authtoken, chatList, setchatList,chatId
         },
       };
       const response = await fetch(
-        `https://chat-app-a4kn.onrender.com/api/user?search=${query}`,
+        `https://chat-app-jzgr.onrender.com/api/user?search=${query}`,
         config
       );
       const data = await response.json();
@@ -45,7 +45,7 @@ export default function GroupChatModal({ authtoken, chatList, setchatList,chatId
     }
     try {
       setGroupCreating(true);
-      const response = await fetch("https://chat-app-a4kn.onrender.com/api/chat/group", {
+      const response = await fetch("https://chat-app-jzgr.onrender.com/api/chat/group", {
         method: "POST",
         headers: {
           authorization: `Bearer ${authtoken}`,

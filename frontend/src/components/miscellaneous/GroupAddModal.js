@@ -23,7 +23,7 @@ const GroupAddModal = ({ chatName, userList,setUserList, isOpen, onClose, authto
         },
       };
       const response = await fetch(
-        `https://chat-app-a4kn.onrender.com/api/user?search=${query}`,
+        `https://chat-app-jzgr.onrender.com/api/user?search=${query}`,
         config
       );
       const data = await response.json();
