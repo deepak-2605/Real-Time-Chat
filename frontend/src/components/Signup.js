@@ -27,7 +27,7 @@ function Signup({ handleregister }) {
 
       return;
     }
-    const response = await fetch("https://chat-app-jzgr.onrender.com/api/user", {
+    const response = await fetch("https://real-time-chat-ymr8.onrender.com/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

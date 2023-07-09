@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import classNames from "classnames";
 import GroupAddModal from "./GroupAddModal.js";
 import io from "socket.io-client";
-const ENDPOINT = "https://chat-app-jzgr.onrender.com";
+const ENDPOINT = "https://real-time-chat-ymr8.onrender.com/";
 
 var socket, selectedChatCompare;
 
@@ -63,7 +63,7 @@ const ChatBox = ({
         content: newMessage,
         chatId: chatId,
       });
-      const response = await fetch("https://chat-app-jzgr.onrender.com/api/message", {
+      const response = await fetch("https://real-time-chat-ymr8.onrender.com/api/message", {
         method: "POST",
         body: data2,
         headers: {
@@ -123,27 +123,7 @@ const ChatBox = ({
   };
   return (
     <div>
-      {/* <div>
-        <button
-          onClick={handleback}
-          className="cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-6 border hover:border-transparent rounded mb-2 ml-2 mt-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-            />
-          </svg>
-        </button>
-      </div> */}
+
       {!isGroupChat && (
         <div className="">
           {userList[0]._id === id ? (

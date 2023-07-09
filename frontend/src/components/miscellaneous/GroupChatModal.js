@@ -45,7 +45,7 @@ export default function GroupChatModal({ authtoken, chatList, setchatList,chatId
     }
     try {
       setGroupCreating(true);
-      const response = await fetch("https://chat-app-jzgr.onrender.com/api/chat/group", {
+      const response = await fetch("https://real-time-chat-ymr8.onrender.com/api/chat/group", {
         method: "POST",
         headers: {
           authorization: `Bearer ${authtoken}`,

@@ -67,7 +67,7 @@ const ChatPage = () => {
           authorization: `Bearer ${authtoken}`,
         },
       };
-      const response = await fetch("https://chat-app-jzgr.onrender.com/api/chat", config);
+      const response = await fetch("https://real-time-chat-ymr8.onrender.com/api/chat", config);
       const chatlist = await response.json();
       const result = [];
       chatlist.forEach((element) => {
@@ -95,7 +95,7 @@ const ChatPage = () => {
       },
     };
     const response = await fetch(
-      `https://chat-app-jzgr.onrender.com/api/message/${chatid}`,
+      `https://real-time-chat-ymr8.onrender.com/api/message/${chatid}`,
       config
     );
     const allmessages = await response.json();
